@@ -3,6 +3,7 @@
 #include "./lib/King.h"
 #include "./lib/Rook.h"
 #include "./lib/Bishop.h"
+#include "./lib/Queen.h"
 
 
 struct Game 
@@ -39,7 +40,8 @@ int main() {
     //Pawn pawn = Pawn(8, true);
     //King king = King(18);
     //Rook rook = Rook(60);
-    Bishop bishop = Bishop(36);
+    //Bishop bishop = Bishop(36);
+    Queen queen = Queen(36);
 
     return 0;
 }
