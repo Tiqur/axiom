@@ -1,6 +1,6 @@
 #include <vector>
 
-struct Rook {
+struct Bishop {
   private:
     char position;
 
@@ -22,20 +22,12 @@ struct Rook {
 
 
 // Get all squares that the piece targets
-std::vector<char> Rook::getTargetedSquares() {
+std::vector<char> Bishop::getTargetedSquares() {
   std::vector<char> targets;
-  char delta = this->position % 8;
-  char low = this->position - delta;
 
-  // Row excluding current position
-  for (int i = low; i < low+8; i++)
-    if (i != this->position)
-      targets.push_back(i);
-
-  // File excuding current position
-  for (int i = delta; i < 64; i+=8)
-    if (i != this->position)
-      targets.push_back(i);
+  // Top Left
+  for (int i = this->position; i < this->position; i-=9)
+    targets.push_back(i);
 
   return targets;
 };
