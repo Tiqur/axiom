@@ -1,5 +1,6 @@
 #include <vector>
 
+
 struct Bishop {
   private:
     char position;
@@ -8,7 +9,7 @@ struct Bishop {
     std::vector<char> getTargetedSquares();
 
   public:
-    Rook(char position) {
+    Bishop(char position) {
       this->position = position;
 
 
@@ -24,10 +25,41 @@ struct Bishop {
 // Get all squares that the piece targets
 std::vector<char> Bishop::getTargetedSquares() {
   std::vector<char> targets;
+  char delta = this->position % 8;
+  char low = this->position - delta;
 
-  // Top Left
-  for (int i = this->position; i < this->position; i-=9)
-    targets.push_back(i);
+  // Get nearest border
+  char squaresFromLeft = this->position-low;
+  char squaresFromRight = 7 - squaresFromLeft;
+  char squaresFromTop = this->position/8;
+  char squaresFromBottom = 7 - squaresFromTop;
+  char nearestBorder;
+  char startingPos;
+  bool start = true;
+
+
+  // Starting position to iterate and find diagonal ( top left to bottom right )
+  nearestBorder = squaresFromTop < squaresFromLeft ? squaresFromTop : squaresFromLeft;
+  startingPos = this->position-nearestBorder-8*nearestBorder;
+  for (int i = startingPos; i < 64; i+=9) {
+    if (!(i % 8) && !start) break;
+    start = false;
+    if (i != this->position)
+      targets.push_back(i);
+  }
+
+
+  // Starting position to iterate and find diagonal ( bottom left to top right )
+  nearestBorder = squaresFromBottom < squaresFromLeft ? squaresFromBottom : squaresFromLeft;
+  startingPos = this->position-nearestBorder+8*nearestBorder;
+  for (int i = startingPos; i > 0; i-=7) {
+    if (!(i % 8) && start) break;
+    start = true;
+    if (i != this->position)
+      targets.push_back(i);
+  }
+
+
 
   return targets;
 };
