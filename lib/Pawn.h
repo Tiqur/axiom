@@ -25,7 +25,6 @@ struct Pawn {
 
 // Get all squares that the piece targets
 std::vector<char> Pawn::getTargetedSquares() {
-  char index = 0;
   char d = this->color ? 1 : -1;
   bool onAFile = !((this->position) % 8);
   bool onHFile = !((this->position+1) % 8);

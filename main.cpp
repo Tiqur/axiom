@@ -1,5 +1,6 @@
 #include <iostream>
-#include "./Classes/Pawn.h"
+#include "./lib/Pawn.h"
+#include "./lib/King.h"
 
 
 struct Game 
@@ -33,7 +34,8 @@ int main() {
 
 
     Game game = Game(startingPosition, true);
-    Pawn pawn = Pawn(8, true);
+    //Pawn pawn = Pawn(8, true);
+    King king = King(18);
 
     return 0;
 }
