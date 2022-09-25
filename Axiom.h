@@ -4,7 +4,12 @@
 class Axiom : public olc::PixelGameEngine
 {
   private:
+    // Chess board square width px
     unsigned char squareWidth;
+
+    // Chess piece offset
+    char pieceOffset = -7;
+
     // White sprites
     olc::Sprite* wk = new olc::Sprite("./sprites/wk.png");
     olc::Sprite* wq = new olc::Sprite("./sprites/wq.png");
@@ -53,6 +58,13 @@ class Axiom : public olc::PixelGameEngine
       return true;
     }
 
+    void DrawPiece(char position, olc::Sprite* sprite)
+    {
+      int xPos = this->pieceOffset+this->squareWidth*(position%8);
+      int yPos = this->pieceOffset+this->squareWidth*(position/8);
+      DrawSprite(xPos, yPos, this->br);
+    }
+
     bool OnUserUpdate(float fElapsedTime) override
     {
 
@@ -69,8 +81,10 @@ class Axiom : public olc::PixelGameEngine
 
       // Set mode transparency (computationally intensive, so only use before drawing sprites)
       SetPixelMode(olc::Pixel::ALPHA);
+
       // Draw sprite
-      DrawSprite(0, 0, this->bn);
+      DrawPiece(9, this->br);
+
       // Disable transparency mode for performance
       SetPixelMode(olc::Pixel::NORMAL);
 

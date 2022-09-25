@@ -13,7 +13,7 @@ int main() {
     std::cout << startingPosition << std::endl;
 
     Axiom game = Axiom(startingPosition);
-    if (game.Construct(1000, 1000, 2, 2))
+    if (game.Construct(1120, 1120, 2, 2))
       game.Start();
 
     //Pawn pawn = Pawn(8, true);
