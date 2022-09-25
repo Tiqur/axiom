@@ -182,9 +182,9 @@ class Axiom : public olc::PixelGameEngine
             switch (customColor)
             {
               case 'r': // Red
-                r = algo ? 234 : 203;
-                g = algo ? 124 : 100;
-                b = algo ? 105 : 94;
+                r = algo ? 203 : 234;
+                g = algo ? 100 : 124;
+                b = algo ? 94 : 105;
               break;
               case 'g': // Green
                 r = algo ? 152 : 184;
