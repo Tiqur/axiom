@@ -10,6 +10,9 @@ class Axiom : public olc::PixelGameEngine
     // Chess piece offset 
     char pieceOffset = -7;
 
+    // Custom Square Colors
+    char customSquareColors[64] = {0};
+
     // White sprites
     olc::Sprite* wk = new olc::Sprite("./sprites/wk.png");
     olc::Sprite* wq = new olc::Sprite("./sprites/wq.png");
@@ -155,10 +158,52 @@ class Axiom : public olc::PixelGameEngine
       // Draw board squares
       for (int x = 0; x < ScreenWidth(); x++) {
         for (int y = 0; y < ScreenHeight(); y++) {
+          // Color only correct squares
           bool algo = (((x / this->squareWidth) % 2) && !((y / this->squareWidth) % 2)) || (!((x / this->squareWidth) % 2) && ((y / this->squareWidth) % 2));
-          int r = algo ? 75 : 234;
-          int g = algo ? 115 : 233;
-          int b = algo ? 154 : 210;
+
+          // Current position on board
+          char position = getPositionFromCoords(x, y);
+
+          // Get square color at current position
+          char customColor = customSquareColors[position];
+
+          // Colors for square
+          int r;
+          int g;
+          int b;
+
+          // Set default color
+          if (!customSquareColors[position]) {
+            r = algo ? 75 : 234;
+            g = algo ? 115 : 233;
+            b = algo ? 154 : 210;
+          } else {
+            // Set custom color
+            switch (customColor)
+            {
+              case 'r': // Red
+                r = algo ? 234 : 203;
+                g = algo ? 124 : 100;
+                b = algo ? 105 : 94;
+              break;
+              case 'g': // Green
+                r = algo ? 152 : 184;
+                g = algo ? 187 : 211;
+                b = algo ? 101 : 113;
+              break;
+              case 'b': // Blue
+                r = algo ? 80 : 112;
+                g = algo ? 163 : 187;
+                b = algo ? 206 : 218;
+              break;
+              case 'o': // Orange
+                r = algo ? 219 : 250;
+                g = algo ? 159 : 182;
+                b = algo ? 30 : 41;
+              break;
+            }
+          }
+
           Draw(x, y, olc::Pixel(r, g, b));	
         }
       }
@@ -172,9 +217,19 @@ class Axiom : public olc::PixelGameEngine
     bool OnUserUpdate(float fElapsedTime) override
     {
       // Current board position from mouse coords
-      char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
-      if (GetMouse(0).bHeld)
-        std::cout << (int)currentPosition << " " << "held" << std::endl;
+     // char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
+     // if (GetMouse(0).bHeld)
+     //   customSquareColors[currentPosition] = 'r';
+
+      customSquareColors[0] = 'r';
+      customSquareColors[1] = 'r';
+      customSquareColors[8] = 'g';
+      customSquareColors[9] = 'g';
+      customSquareColors[16] = 'b';
+      customSquareColors[17] = 'b';
+      customSquareColors[24] = 'o';
+      customSquareColors[25] = 'o';
+
 
       // Draw Squares
       DrawBoard();
