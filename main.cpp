@@ -4,6 +4,7 @@
 #include "./lib/Rook.h"
 #include "./lib/Bishop.h"
 #include "./lib/Queen.h"
+#include "./lib/Knight.h"
 
 
 struct Game 
@@ -41,7 +42,8 @@ int main() {
     //King king = King(18);
     //Rook rook = Rook(60);
     //Bishop bishop = Bishop(36);
-    Queen queen = Queen(36);
+    //Queen queen = Queen(36);
+    Knight knight = Knight(52);
 
     return 0;
 }
