@@ -1,7 +1,7 @@
 #define OLC_PGE_APPLICATION
 #include "./lib/olcPixelGameEngine.h"
 
-class Axiom : public olc::PixelGameEngine
+class BoardRenderer : public olc::PixelGameEngine
 {
   private:
     // Chess board square width px
@@ -38,7 +38,7 @@ class Axiom : public olc::PixelGameEngine
     // True = white
     bool turn = true;
 
-    Axiom(char* FEN)
+    BoardRenderer(char* FEN)
     {
       // Set app name
       sAppName = "Axiom";
@@ -204,6 +204,7 @@ class Axiom : public olc::PixelGameEngine
             }
           }
 
+          // Draw pixel
           Draw(x, y, olc::Pixel(r, g, b));	
         }
       }
@@ -217,9 +218,9 @@ class Axiom : public olc::PixelGameEngine
     bool OnUserUpdate(float fElapsedTime) override
     {
       // Current board position from mouse coords
-     // char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
-     // if (GetMouse(0).bHeld)
-     //   customSquareColors[currentPosition] = 'r';
+      char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
+      if (GetMouse(0).bHeld)
+        customSquareColors[currentPosition] = 'r';
 
       customSquareColors[0] = 'r';
       customSquareColors[1] = 'r';

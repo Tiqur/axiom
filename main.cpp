@@ -5,16 +5,20 @@
 #include "./lib/Bishop.h"
 #include "./lib/Queen.h"
 #include "./lib/Knight.h"
-#include "./Axiom.h"
+#include "./BoardRenderer.h"
 
 
 int main() {
     char startingPosition[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     std::cout << startingPosition << std::endl;
 
-    Axiom game = Axiom(startingPosition);
-    if (game.Construct(1120, 1120, 2, 2))
-      game.Start();
+    // Init renderer
+    BoardRenderer renderer = BoardRenderer(startingPosition);
+       
+    // Start renderer
+    if (renderer.Construct(1120, 1120, 2, 2))
+      renderer.Start();
+    
 
     //Pawn pawn = Pawn(8, true);
     //King king = King(18);
