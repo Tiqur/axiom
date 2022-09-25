@@ -82,7 +82,7 @@ class Axiom : public olc::PixelGameEngine
     {
       int xPos = this->pieceOffset+this->squareWidth*(position%8);
       int yPos = this->pieceOffset+this->squareWidth*(position/8);
-      DrawSprite(xPos, yPos, this->br);
+      DrawSprite(xPos, yPos, sprite);
     }
 
     void DrawPieces()
@@ -90,8 +90,60 @@ class Axiom : public olc::PixelGameEngine
       // Set mode transparency (computationally intensive, so only use before drawing sprites)
       SetPixelMode(olc::Pixel::ALPHA);
 
-      // Draw sprite
-      DrawPiece(9, this->br);
+      // Loop through board array
+      for (int position = 0; position < 64; position++)
+      {
+        // Init sprite
+        olc::Sprite* sprite;
+
+        // Get correct sprite
+        switch (board[position])
+        {
+          case 'r': // Black Rook
+            sprite = this->br;
+          break;
+          case 'n': // Black Knight
+            sprite = this->bn;
+          break;
+          case 'b': // Black Bishop
+            sprite = this->bb;
+          break;
+          case 'q': // Black Queen
+            sprite = this->bq;
+          break;
+          case 'k': // Black King
+            sprite = this->bk;
+          break;
+          case 'p': // Black Pawn
+            sprite = this->br;
+          break;
+          case 'R': // White Rook
+            sprite = this->wr;
+          break;
+          case 'N': // White Knight
+            sprite = this->wn;
+          break;
+          case 'B': // White Bishop
+            sprite = this->wb;
+          break;
+          case 'Q': // White Queen
+            sprite = this->wq;
+          break;
+          case 'K': // White King
+            sprite = this->wk;
+          break;
+          case 'P': // White Pawn
+            sprite = this->wp;
+          break;
+          default: 
+            sprite = NULL;
+          break;
+        }
+
+        // Draw sprite
+        if (sprite != NULL)
+          DrawPiece(position, sprite);
+      }
 
       // Disable transparency mode for performance
       SetPixelMode(olc::Pixel::NORMAL);
