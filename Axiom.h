@@ -5,6 +5,22 @@ class Axiom : public olc::PixelGameEngine
 {
   private:
     char pixelWidth = ScreenWidth() / 8;
+    // White sprites
+    olc::Sprite* wk = new olc::Sprite("./sprites/wk.png");
+    olc::Sprite* wq = new olc::Sprite("./sprites/wq.png");
+    olc::Sprite* wr = new olc::Sprite("./sprites/wr.png");
+    olc::Sprite* wb = new olc::Sprite("./sprites/wb.png");
+    olc::Sprite* wn = new olc::Sprite("./sprites/wn.png");
+    olc::Sprite* wp = new olc::Sprite("./sprites/wp.png");
+
+    // Black sprites
+    olc::Sprite* bk = new olc::Sprite("./sprites/bk.png");
+    olc::Sprite* bq = new olc::Sprite("./sprites/bq.png");
+    olc::Sprite* br = new olc::Sprite("./sprites/br.png");
+    olc::Sprite* bb = new olc::Sprite("./sprites/bb.png");
+    olc::Sprite* bn = new olc::Sprite("./sprites/bn.png");
+    olc::Sprite* bp = new olc::Sprite("./sprites/bp.png");
+
 
   public:
     // Entire board
@@ -36,6 +52,8 @@ class Axiom : public olc::PixelGameEngine
 
     bool OnUserUpdate(float fElapsedTime) override
     {
+
+      // Draw board squares
       for (int x = 0; x < ScreenWidth(); x++) {
         for (int y = 0; y < ScreenHeight(); y++) {
           bool algo = (((x / this->pixelWidth) % 2) && !((y / this->pixelWidth) % 2)) || (!((x / this->pixelWidth) % 2) && ((y / this->pixelWidth) % 2));
@@ -45,6 +63,8 @@ class Axiom : public olc::PixelGameEngine
           Draw(x, y, olc::Pixel(r, g, b));	
         }
       }
+
+      DrawSprite(0, 0, this->bn);
       return true;
     }
 };
