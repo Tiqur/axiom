@@ -51,7 +51,6 @@ class Axiom : public olc::PixelGameEngine
       {
         if (FEN[i] != '/')
         {
-          std::cout << (int)index << std::endl;
           // Fill empty squares with 0
           if (isdigit(FEN[i])) 
             // Convert FEN[i] to digit from ascii
@@ -63,6 +62,7 @@ class Axiom : public olc::PixelGameEngine
         }
       }
 
+      // Output board to console
       for (int x = 0; x<8; x++) {
         for (int y = 0; y<8; y++)
           std::cout << ' ' << board[x*8 + y];
@@ -115,7 +115,7 @@ class Axiom : public olc::PixelGameEngine
             sprite = this->bk;
           break;
           case 'p': // Black Pawn
-            sprite = this->br;
+            sprite = this->bp;
           break;
           case 'R': // White Rook
             sprite = this->wr;
@@ -164,8 +164,18 @@ class Axiom : public olc::PixelGameEngine
       }
     }
 
+    char getPositionFromCoords(int x, int y)
+    {
+      return (int)(x / this->squareWidth) + (int)(y / this->squareWidth) * 8;
+    }
+
     bool OnUserUpdate(float fElapsedTime) override
     {
+      // Current board position from mouse coords
+      char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
+      if (GetMouse(0).bHeld)
+        std::cout << (int)currentPosition << " " << "held" << std::endl;
+
       // Draw Squares
       DrawBoard();
 
