@@ -10,6 +10,9 @@ class BoardRenderer : public olc::PixelGameEngine
     // Chess piece offset 
     char pieceOffset = -7;
 
+    // Board positions
+    char *board;
+
     // Custom Square Colors
     char customSquareColors[64] = {0};
 
@@ -32,45 +35,16 @@ class BoardRenderer : public olc::PixelGameEngine
 
 
   public:
-    // Entire board
-    char board[64];
-
     // True = white
     bool turn = true;
 
-    BoardRenderer(char* FEN)
+    BoardRenderer(char board[64])
     {
+      // Set board positions
+      this->board = board;
+
       // Set app name
       sAppName = "Axiom";
-
-      // Set game turn
-      turn = turn;
-
-      // Board index
-      char index = 0;
-
-      // Set game board
-      for (int i = 0; FEN[i] != ' '; i++)
-      {
-        if (FEN[i] != '/')
-        {
-          // Fill empty squares with 0
-          if (isdigit(FEN[i])) 
-            // Convert FEN[i] to digit from ascii
-            for (int o = 0; o<FEN[i]-48; o++)
-              board[index++] = '+';
-          // Assign piece to board position
-          else
-            board[index++] = FEN[i];
-        }
-      }
-
-      // Output board to console
-      for (int x = 0; x<8; x++) {
-        for (int y = 0; y<8; y++)
-          std::cout << ' ' << board[x*8 + y];
-        std::cout << std::endl;
-      }
     }
 
   public:
@@ -100,7 +74,7 @@ class BoardRenderer : public olc::PixelGameEngine
         olc::Sprite* sprite;
 
         // Get correct sprite
-        switch (board[position])
+        switch (this->board[position])
         {
           case 'r': // Black Rook
             sprite = this->br;
@@ -218,9 +192,9 @@ class BoardRenderer : public olc::PixelGameEngine
     bool OnUserUpdate(float fElapsedTime) override
     {
       // Current board position from mouse coords
-      char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
-      if (GetMouse(0).bHeld)
-        customSquareColors[currentPosition] = 'r';
+      //char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
+      //if (GetMouse(0).bHeld)
+        //customSquareColors[currentPosition] = 'r';
 
       customSquareColors[0] = 'r';
       customSquareColors[1] = 'r';
