@@ -4,7 +4,7 @@
 class Axiom : public olc::PixelGameEngine
 {
   private:
-    char pixelWidth = ScreenWidth() / 8;
+    unsigned char squareWidth;
     // White sprites
     olc::Sprite* wk = new olc::Sprite("./sprites/wk.png");
     olc::Sprite* wq = new olc::Sprite("./sprites/wq.png");
@@ -20,6 +20,7 @@ class Axiom : public olc::PixelGameEngine
     olc::Sprite* bb = new olc::Sprite("./sprites/bb.png");
     olc::Sprite* bn = new olc::Sprite("./sprites/bn.png");
     olc::Sprite* bp = new olc::Sprite("./sprites/bp.png");
+
 
 
   public:
@@ -47,6 +48,8 @@ class Axiom : public olc::PixelGameEngine
   public:
     bool OnUserCreate() override
     {
+      // Set board square width
+      this->squareWidth = (ScreenWidth() / 8);
       return true;
     }
 
@@ -56,7 +59,7 @@ class Axiom : public olc::PixelGameEngine
       // Draw board squares
       for (int x = 0; x < ScreenWidth(); x++) {
         for (int y = 0; y < ScreenHeight(); y++) {
-          bool algo = (((x / this->pixelWidth) % 2) && !((y / this->pixelWidth) % 2)) || (!((x / this->pixelWidth) % 2) && ((y / this->pixelWidth) % 2));
+          bool algo = (((x / this->squareWidth) % 2) && !((y / this->squareWidth) % 2)) || (!((x / this->squareWidth) % 2) && ((y / this->squareWidth) % 2));
           int r = algo ? 75 : 234;
           int g = algo ? 115 : 233;
           int b = algo ? 154 : 210;
@@ -64,7 +67,13 @@ class Axiom : public olc::PixelGameEngine
         }
       }
 
+      // Set mode transparency (computationally intensive, so only use before drawing sprites)
+      SetPixelMode(olc::Pixel::ALPHA);
+      // Draw sprite
       DrawSprite(0, 0, this->bn);
+      // Disable transparency mode for performance
+      SetPixelMode(olc::Pixel::NORMAL);
+
       return true;
     }
 };
