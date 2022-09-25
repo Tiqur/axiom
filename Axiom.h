@@ -7,7 +7,7 @@ class Axiom : public olc::PixelGameEngine
     // Chess board square width px
     unsigned char squareWidth;
 
-    // Chess piece offset
+    // Chess piece offset 
     char pieceOffset = -7;
 
     // White sprites
@@ -43,11 +43,31 @@ class Axiom : public olc::PixelGameEngine
       // Set game turn
       turn = turn;
 
+      // Board index
+      char index = 0;
+
       // Set game board
-      //for (int i = 0; FEN[i] != ' '; i++)
-      //{
-      //  std::cout << FEN[i] << std::endl;
-      //}
+      for (int i = 0; FEN[i] != ' '; i++)
+      {
+        if (FEN[i] != '/')
+        {
+          std::cout << (int)index << std::endl;
+          // Fill empty squares with 0
+          if (isdigit(FEN[i])) 
+            // Convert FEN[i] to digit from ascii
+            for (int o = 0; o<FEN[i]-48; o++)
+              board[index++] = '+';
+          // Assign piece to board position
+          else
+            board[index++] = FEN[i];
+        }
+      }
+
+      for (int x = 0; x<8; x++) {
+        for (int y = 0; y<8; y++)
+          std::cout << ' ' << board[x*8 + y];
+        std::cout << std::endl;
+      }
     }
 
   public:
@@ -65,9 +85,21 @@ class Axiom : public olc::PixelGameEngine
       DrawSprite(xPos, yPos, this->br);
     }
 
-    bool OnUserUpdate(float fElapsedTime) override
+    void DrawPieces()
     {
+      // Set mode transparency (computationally intensive, so only use before drawing sprites)
+      SetPixelMode(olc::Pixel::ALPHA);
 
+      // Draw sprite
+      DrawPiece(9, this->br);
+
+      // Disable transparency mode for performance
+      SetPixelMode(olc::Pixel::NORMAL);
+
+    }
+
+    void DrawBoard()
+    {
       // Draw board squares
       for (int x = 0; x < ScreenWidth(); x++) {
         for (int y = 0; y < ScreenHeight(); y++) {
@@ -78,15 +110,15 @@ class Axiom : public olc::PixelGameEngine
           Draw(x, y, olc::Pixel(r, g, b));	
         }
       }
+    }
 
-      // Set mode transparency (computationally intensive, so only use before drawing sprites)
-      SetPixelMode(olc::Pixel::ALPHA);
+    bool OnUserUpdate(float fElapsedTime) override
+    {
+      // Draw Squares
+      DrawBoard();
 
-      // Draw sprite
-      DrawPiece(9, this->br);
-
-      // Disable transparency mode for performance
-      SetPixelMode(olc::Pixel::NORMAL);
+      // Draw Pieces
+      DrawPieces();
 
       return true;
     }
