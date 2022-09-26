@@ -9,7 +9,7 @@
 #include "./lib/Queen.h"
 #include "./lib/Knight.h"
 #include "./lib/Game.h"
-#include "./BoardRenderer.h"
+#include "./lib/BoardRenderer.h"
 
 
 
@@ -23,6 +23,10 @@ int main() {
   Game game = Game(FEN);
   game.outputCurrentBoard();
 
+
+  std::cout << game.getTurn() << std::endl;
+  std::cout << game.getHalfMoveClock() << std::endl;
+  std::cout << game.getFullMoveCounter() << std::endl;
 
   // Init renderer
   BoardRenderer renderer = BoardRenderer(game.getBoard());
