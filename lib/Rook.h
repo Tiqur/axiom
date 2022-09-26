@@ -1,5 +1,3 @@
-#include <vector>
-
 struct Rook {
   private:
     char position;

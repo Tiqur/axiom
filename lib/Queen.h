@@ -1,6 +1,3 @@
-#include <vector>
-
-
 struct Queen {
   private:
     char position;

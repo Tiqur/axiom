@@ -1,5 +1,3 @@
-#include <vector>
-
 struct Pawn {
   private:
     char position;

@@ -1,5 +1,3 @@
-#include <vector>
-
 struct Knight {
   private:
     char position;

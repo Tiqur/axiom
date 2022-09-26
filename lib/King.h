@@ -1,5 +1,3 @@
-#include <vector>
-
 struct King {
   private:
     char position;
