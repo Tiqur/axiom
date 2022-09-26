@@ -9,7 +9,7 @@
 #include "./lib/Knight.h"
 #include "./BoardRenderer.h"
 
-void parseFEN(std::string FEN, char* board, bool turn, bool& ck, bool& cq, bool& cK, bool& cQ)
+void parseFEN(std::string FEN, char* board, bool turn, bool& ck, bool& cq, bool& cK, bool& cQ, char& halfMoveClock, char& fullMoveCounter)
 {
 
   std::vector<std::string> slices;
@@ -38,19 +38,18 @@ void parseFEN(std::string FEN, char* board, bool turn, bool& ck, bool& cq, bool&
     }
   }
 
-  //Output board to console
-  for (int x = 0; x<8; x++) {
-    for (int y = 0; y<8; y++)
-      std::cout << ' ' << board[x*8 + y];
-    std::cout << std::endl;
-  }
+  ////Output board to console
+  //for (int x = 0; x<8; x++) {
+  //  for (int y = 0; y<8; y++)
+  //    std::cout << ' ' << board[x*8 + y];
+  //  std::cout << std::endl;
+  //}
 
   // Set Turn ( true -> white   false -> black )
   for (char& c : slices[1])
     turn = c == 'w';
 
-
-
+  
 
   // Castling Rights
   for (char& c : slices[2])
@@ -72,6 +71,8 @@ void parseFEN(std::string FEN, char* board, bool turn, bool& ck, bool& cq, bool&
     }
   }
 
+
+
   // ** DO THIS LATER **
   // Parse En-Passants 
   for (char& c : slices[3])
@@ -82,7 +83,10 @@ void parseFEN(std::string FEN, char* board, bool turn, bool& ck, bool& cq, bool&
 
 
   // Parse Half Move Clock
-  std::cout << std::stoi(slices[4]) << std::endl;
+  halfMoveClock = std::stoi(slices[4]);
+
+  // Parse Full Move Counter
+  fullMoveCounter = std::stoi(slices[5]);
 };
 
 
@@ -102,8 +106,14 @@ int main() {
   bool cK = false;
   bool cQ = false; 
 
+  // Half move clock
+  char halfMoveClock;
+
+  // Full Move Counter
+  char fullMoveCounter;
+
   // Parse FEN into board positions
-  parseFEN(FEN, board, turn, ck, cq, cK, cQ);
+  parseFEN(FEN, board, turn, ck, cq, cK, cQ, halfMoveClock, fullMoveCounter);
 
   // Init renderer
   BoardRenderer renderer = BoardRenderer(board);
