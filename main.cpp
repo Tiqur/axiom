@@ -16,14 +16,16 @@
 
 
 int main() {
-  std::string FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 100 1";
+  std::string FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   std::cout << FEN << std::endl;
 
   // Create new Game instance
   Game game = Game(FEN);
+  game.outputCurrentBoard();
+
 
   // Init renderer
-  BoardRenderer renderer = BoardRenderer(game.board);
+  BoardRenderer renderer = BoardRenderer(game.getBoard());
 
      
   // Start renderer
