@@ -7,33 +7,65 @@
 #include "./lib/Knight.h"
 #include "./BoardRenderer.h"
 
-void parseFEN(char* FEN, char* board, bool turn)
+void parseFEN(char* FEN, char* board, bool turn, bool& ck, bool& cq, bool& cK, bool& cQ)
 {
+  // Fen Index 
+  char fenIndex = 0;
+
+
+
+
   // Board index
-  char index = 0;
+  char boardIndex = 0;
 
   // Set game board
-  for (int i = 0; FEN[i] != ' '; i++)
+  for (fenIndex; FEN[fenIndex] != ' '; fenIndex++)
   {
-    if (FEN[i] != '/')
+    if (FEN[fenIndex] != '/')
     {
       // Fill empty squares with 0
-      if (isdigit(FEN[i])) 
+      if (isdigit(FEN[fenIndex])) 
         // Convert FEN[i] to digit from ascii
-        for (int o = 0; o<FEN[i]-48; o++)
-          board[index++] = '+';
+        for (int o = 0; o<FEN[fenIndex]-48; o++)
+          board[boardIndex++] = '+';
       // Assign piece to board position
       else
-        board[index++] = FEN[i];
+        board[boardIndex++] = FEN[fenIndex];
     }
   }
 
-  // Output board to console
-  for (int x = 0; x<8; x++) {
-    for (int y = 0; y<8; y++)
-      std::cout << ' ' << board[x*8 + y];
-    std::cout << std::endl;
+
+
+
+  // Set Turn ( true -> white   false -> black )
+  for (fenIndex++; FEN[fenIndex] != ' '; fenIndex++)
+    turn = FEN[fenIndex] == 'w';
+
+
+
+  
+  // Castling Rights
+  for (fenIndex++; FEN[fenIndex] != ' '; fenIndex++)
+  {
+    switch(FEN[fenIndex])
+    {
+      case 'q':
+        ck = true;
+      break;
+      case 'k':
+        cq = true;
+      break;
+      case 'Q':
+        cK = true;
+      break;
+      case 'K':
+        cQ = true;
+      break;
+    }
   }
+
+
+
 };
 
 
@@ -47,8 +79,14 @@ int main() {
     // Turn (true for white)
     bool turn;
 
+    // Castling rights
+    bool ck = false;
+    bool cq = false;
+    bool cK = false;
+    bool cQ = false; 
+
     // Parse FEN into board positions
-    parseFEN(FEN, board, turn);
+    parseFEN(FEN, board, turn, ck, cq, cK, cQ);
 
     // Init renderer
     BoardRenderer renderer = BoardRenderer(board);

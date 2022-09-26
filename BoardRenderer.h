@@ -47,7 +47,6 @@ class BoardRenderer : public olc::PixelGameEngine
       sAppName = "Axiom";
     }
 
-  public:
     bool OnUserCreate() override
     {
       // Set board square width
