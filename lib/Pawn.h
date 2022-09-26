@@ -1,12 +1,10 @@
 struct Pawn {
-  private:
     char position;
     bool color;
 
     // Private Methods
     std::vector<char> getTargetedSquares();
 
-  public:
     Pawn(char position, bool color) {
       this->position = position;
       this->color = color;

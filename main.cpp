@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 #include "./lib/Pawn.h"
 #include "./lib/King.h"
@@ -7,116 +8,22 @@
 #include "./lib/Bishop.h"
 #include "./lib/Queen.h"
 #include "./lib/Knight.h"
+#include "./lib/Game.h"
 #include "./BoardRenderer.h"
 
-void parseFEN(std::string FEN, char* board, bool turn, bool& ck, bool& cq, bool& cK, bool& cQ, char& halfMoveClock, char& fullMoveCounter)
-{
-
-  std::vector<std::string> slices;
-  std::stringstream ss(FEN);
-  std::string segment;
-
-  while (getline (ss, segment, ' '))
-    slices.push_back(segment);
 
 
-
-  // Set game board
-  char boardIndex = 0;
-  for (char& c : slices[0])
-  {
-    if (c != '/')
-    {
-      // Fill empty squares with 0
-      if (isdigit(c)) 
-        // Convert FEN[i] to digit from ascii
-        for (int o = 0; o<c-48; o++)
-          board[boardIndex++] = '+';
-      // Assign piece to board position
-      else
-        board[boardIndex++] = c;
-    }
-  }
-
-  ////Output board to console
-  //for (int x = 0; x<8; x++) {
-  //  for (int y = 0; y<8; y++)
-  //    std::cout << ' ' << board[x*8 + y];
-  //  std::cout << std::endl;
-  //}
-
-  // Set Turn ( true -> white   false -> black )
-  for (char& c : slices[1])
-    turn = c == 'w';
-
-  
-
-  // Castling Rights
-  for (char& c : slices[2])
-  {
-    switch(c)
-    {
-      case 'q':
-        ck = true;
-      break;
-      case 'k':
-        cq = true;
-      break;
-      case 'Q':
-        cK = true;
-      break;
-      case 'K':
-        cQ = true;
-      break;
-    }
-  }
-
-
-
-  // ** DO THIS LATER **
-  // Parse En-Passants 
-  for (char& c : slices[3])
-  {
-
-  }
-
-
-
-  // Parse Half Move Clock
-  halfMoveClock = std::stoi(slices[4]);
-
-  // Parse Full Move Counter
-  fullMoveCounter = std::stoi(slices[5]);
-};
 
 
 int main() {
   std::string FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 100 1";
   std::cout << FEN << std::endl;
 
-  // Holds all positions on board
-  char board[64];
-
-  // Turn (true for white)
-  bool turn;
-
-  // Castling rights
-  bool ck = false;
-  bool cq = false;
-  bool cK = false;
-  bool cQ = false; 
-
-  // Half move clock
-  char halfMoveClock;
-
-  // Full Move Counter
-  char fullMoveCounter;
-
-  // Parse FEN into board positions
-  parseFEN(FEN, board, turn, ck, cq, cK, cQ, halfMoveClock, fullMoveCounter);
+  // Create new Game instance
+  Game game = Game(FEN);
 
   // Init renderer
-  BoardRenderer renderer = BoardRenderer(board);
+  BoardRenderer renderer = BoardRenderer(game.board);
 
      
   // Start renderer

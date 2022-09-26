@@ -1,14 +1,9 @@
-#include <vector>
-
-
 struct Bishop {
-  private:
     char position;
 
     // Private Methods
     std::vector<char> getTargetedSquares();
 
-  public:
     Bishop(char position) {
       this->position = position;
 

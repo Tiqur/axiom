@@ -1,11 +1,9 @@
 struct Queen {
-  private:
     char position;
 
     // Private Methods
     std::vector<char> getTargetedSquares();
 
-  public:
     Queen(char position) {
       this->position = position;
 

@@ -1,11 +1,9 @@
 struct King {
-  private:
     char position;
 
     // Private Methods
     std::vector<char> getTargetedSquares();
 
-  public:
     King(char position) {
       this->position = position;
 

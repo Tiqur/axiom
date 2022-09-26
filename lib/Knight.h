@@ -1,11 +1,9 @@
 struct Knight {
-  private:
     char position;
 
     // Private Methods
     std::vector<char> getTargetedSquares();
 
-  public:
     Knight(char position) {
       this->position = position;
 
