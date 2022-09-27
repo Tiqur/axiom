@@ -21,7 +21,7 @@ int main() {
 
   // Create new Game instance
   Game game = Game(FEN);
-  game.outputCurrentBoard();
+  std::cout << game.currentBoardToFEN() << std::endl;
 
 
   std::cout << game.getTurn() << std::endl;

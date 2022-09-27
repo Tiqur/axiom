@@ -157,6 +157,36 @@ class Game
       return (int)this->fullMoveCounter;
     };
 
+    // Return FEN of current game states
+    std::string currentBoardToFEN()
+    {
+      // New FEN string to return
+      std::string newFEN = "";
+
+      // Empty square amount 
+      char emptySquareIndex = 0;
+      
+      // Append each position to FEN
+      for (int i = 0; i < 64; i++)
+      {
+        char piece = this->board[i];
+
+        if (piece == '+')
+          if ((int)newFEN.back() > 47 && (int)newFEN.back() < 57)
+            newFEN[newFEN.size() - 1]++;
+          else
+            newFEN += '1';
+        else 
+          newFEN += piece;
+
+        // Append '/' every new row
+        if (!((i+1) % 8) && i != 63)
+          newFEN += '/';
+      }
+
+      return newFEN;
+    }
+
     // Output board to console
     void outputCurrentBoard()
     {
