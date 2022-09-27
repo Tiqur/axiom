@@ -6,6 +6,9 @@ class Game
 {
   private:
 
+    // Init board renderer
+    BoardRenderer* renderer = nullptr;
+
     // Holds all positions on board
     char board[64];
 
@@ -116,17 +119,17 @@ class Game
       parseHalfMoveClock(slices[4]);
       parseFullMoveCounter(slices[5]);
       outputCurrentBoard();
+
+      // Init renderer
+      this->renderer = new BoardRenderer(this->board);
     };
 
     // Render current board
     void render()
     {
-      // Init renderer
-      BoardRenderer renderer = BoardRenderer(this->board);
-         
       // Start renderer
-      if (renderer.Construct(128, 128, 1, 1))
-        renderer.Start();
+      if (renderer->Construct(128, 128, 1, 1))
+        renderer->Start();
     }
 
     // Getters ( self explanatory )
@@ -235,6 +238,6 @@ class Game
     // Pass square from game to BoardRenderer
     void selectSquare(char position)
     {
-      
+      this->renderer->setCustomSquareColor(position, 'b');
     }
 };

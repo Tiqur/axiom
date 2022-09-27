@@ -208,14 +208,14 @@ class BoardRenderer : public olc::PixelGameEngine
       //if (GetMouse(0).bHeld)
         //customSquareColors[currentPosition] = 'r';
 
-      customSquareColors[0] = 'r';
-      customSquareColors[1] = 'r';
-      customSquareColors[8] = 'g';
-      customSquareColors[9] = 'g';
-      customSquareColors[16] = 'b';
-      customSquareColors[17] = 'b';
-      customSquareColors[24] = 'o';
-      customSquareColors[25] = 'o';
+      //customSquareColors[0] = 'r';
+      //customSquareColors[1] = 'r';
+      //customSquareColors[8] = 'g';
+      //customSquareColors[9] = 'g';
+      //customSquareColors[16] = 'b';
+      //customSquareColors[17] = 'b';
+      //customSquareColors[24] = 'o';
+      //customSquareColors[25] = 'o';
 
 
       // Draw Squares
@@ -225,5 +225,11 @@ class BoardRenderer : public olc::PixelGameEngine
       DrawPieces();
 
       return true;
+    }
+
+    void setCustomSquareColor(char position, char color)
+    {
+      if (color == 'r' || color == 'g' || color == 'b' || color == 'o')
+        this->customSquareColors[position] = color;
     }
 };

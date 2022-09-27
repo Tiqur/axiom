@@ -22,6 +22,8 @@ int main() {
   Game game = Game(FEN);
   std::cout << game.currentBoardToFEN() << std::endl;
 
+  game.selectSquare(0);
+
   // Render game
   game.render();
 
