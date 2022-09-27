@@ -186,6 +186,13 @@ class Game
       newFEN += ' ';
       newFEN += this->turn ? 'w' : 'b';
 
+      // Append Castling rights
+      newFEN += ' ';
+      if (this->ck) newFEN += 'k';
+      if (this->cq) newFEN += 'q';
+      if (this->cK) newFEN += 'K';
+      if (this->cQ) newFEN += 'Q';
+
       return newFEN;
     }
 
