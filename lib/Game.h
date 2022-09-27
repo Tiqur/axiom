@@ -162,9 +162,6 @@ class Game
     {
       // New FEN string to return
       std::string newFEN = "";
-
-      // Empty square amount 
-      char emptySquareIndex = 0;
       
       // Append each position to FEN
       for (int i = 0; i < 64; i++)
@@ -183,6 +180,11 @@ class Game
         if (!((i+1) % 8) && i != 63)
           newFEN += '/';
       }
+
+
+      // Append turn to FEN
+      newFEN += ' ';
+      newFEN += this->turn ? 'w' : 'b';
 
       return newFEN;
     }
