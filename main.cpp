@@ -23,11 +23,6 @@ int main() {
   Game game = Game(FEN);
   std::cout << game.currentBoardToFEN() << std::endl;
 
-
-  std::cout << game.getTurn() << std::endl;
-  std::cout << game.getHalfMoveClock() << std::endl;
-  std::cout << game.getFullMoveCounter() << std::endl;
-
   // Init renderer
   BoardRenderer renderer = BoardRenderer(game.getBoard());
 

@@ -193,6 +193,19 @@ class Game
       if (this->cK) newFEN += 'K';
       if (this->cQ) newFEN += 'Q';
 
+      // ** DO THIS LATER **
+      // Append En Passant
+      newFEN += ' ';
+      newFEN += '-';
+
+      // Append half move clock
+      newFEN += ' ';
+      newFEN += std::to_string(this->halfMoveClock);
+
+      // Append full move counter
+      newFEN += ' ';
+      newFEN += std::to_string(this->fullMoveCounter);
+
       return newFEN;
     }
 
