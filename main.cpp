@@ -33,7 +33,7 @@ int main() {
 
      
   // Start renderer
-  if (renderer.Construct(1120, 1120, 2, 2))
+  if (renderer.Construct(128, 128, 1, 1))
     renderer.Start();
   
 

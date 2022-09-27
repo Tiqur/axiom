@@ -8,7 +8,10 @@ class BoardRenderer : public olc::PixelGameEngine
     unsigned char squareWidth;
 
     // Chess piece offset 
-    char pieceOffset = -7;
+    char pieceOffset = 0;
+
+    // Sprite scale
+    float spriteScale = 0.109;
 
     // Board positions
     char *board;
@@ -78,7 +81,7 @@ class BoardRenderer : public olc::PixelGameEngine
       olc::vf2d pos = { (float)xPos, (float)yPos };
 
       // Draw
-      DrawDecal(pos, decal);
+      DrawDecal(pos, decal, {this->spriteScale, this->spriteScale});
     }
 
     void DrawPieces()
