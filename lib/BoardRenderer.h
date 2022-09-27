@@ -1,5 +1,5 @@
 #define OLC_PGE_APPLICATION
-#include "./lib/olcPixelGameEngine.h"
+#include "./olcPixelGameEngine.h"
 
 class BoardRenderer : public olc::PixelGameEngine
 {
@@ -16,22 +16,21 @@ class BoardRenderer : public olc::PixelGameEngine
     // Custom Square Colors
     char customSquareColors[64] = {0};
 
-    // White sprites
-    olc::Sprite* wk = new olc::Sprite("./sprites/wk.png");
-    olc::Sprite* wq = new olc::Sprite("./sprites/wq.png");
-    olc::Sprite* wr = new olc::Sprite("./sprites/wr.png");
-    olc::Sprite* wb = new olc::Sprite("./sprites/wb.png");
-    olc::Sprite* wn = new olc::Sprite("./sprites/wn.png");
-    olc::Sprite* wp = new olc::Sprite("./sprites/wp.png");
+    // White Decals
+    olc::Decal* wk = nullptr;
+    olc::Decal* wq = nullptr;
+    olc::Decal* wr = nullptr;
+    olc::Decal* wb = nullptr;
+    olc::Decal* wn = nullptr;
+    olc::Decal* wp = nullptr;
 
-    // Black sprites
-    olc::Sprite* bk = new olc::Sprite("./sprites/bk.png");
-    olc::Sprite* bq = new olc::Sprite("./sprites/bq.png");
-    olc::Sprite* br = new olc::Sprite("./sprites/br.png");
-    olc::Sprite* bb = new olc::Sprite("./sprites/bb.png");
-    olc::Sprite* bn = new olc::Sprite("./sprites/bn.png");
-    olc::Sprite* bp = new olc::Sprite("./sprites/bp.png");
-
+    // Black Decals
+    olc::Decal* bk = nullptr;
+    olc::Decal* bq = nullptr;
+    olc::Decal* br = nullptr;
+    olc::Decal* bb = nullptr;
+    olc::Decal* bn = nullptr;
+    olc::Decal* bp = nullptr;
 
 
   public:
@@ -51,14 +50,35 @@ class BoardRenderer : public olc::PixelGameEngine
     {
       // Set board square width
       this->squareWidth = (ScreenWidth() / 8);
+
+      // White Sprites -> Decals
+      this->wk = new olc::Decal(new olc::Sprite("./sprites/wk.png"));
+      this->wq = new olc::Decal(new olc::Sprite("./sprites/wq.png"));
+      this->wr = new olc::Decal(new olc::Sprite("./sprites/wr.png"));
+      this->wb = new olc::Decal(new olc::Sprite("./sprites/wb.png"));
+      this->wn = new olc::Decal(new olc::Sprite("./sprites/wn.png"));
+      this->wp = new olc::Decal(new olc::Sprite("./sprites/wp.png"));
+
+      // Black Sprites -> Decals
+      this->bk = new olc::Decal(new olc::Sprite("./sprites/bk.png"));
+      this->bq = new olc::Decal(new olc::Sprite("./sprites/bq.png"));
+      this->br = new olc::Decal(new olc::Sprite("./sprites/br.png"));
+      this->bb = new olc::Decal(new olc::Sprite("./sprites/bb.png"));
+      this->bn = new olc::Decal(new olc::Sprite("./sprites/bn.png"));
+      this->bp = new olc::Decal(new olc::Sprite("./sprites/bp.png"));
+
       return true;
     }
 
-    void DrawPiece(char position, olc::Sprite* sprite)
+    void DrawPiece(char position, olc::Decal* decal)
     {
+      // Calculate sprite location
       int xPos = this->pieceOffset+this->squareWidth*(position%8);
       int yPos = this->pieceOffset+this->squareWidth*(position/8);
-      DrawSprite(xPos, yPos, sprite);
+      olc::vf2d pos = { (float)xPos, (float)yPos };
+
+      // Draw
+      DrawDecal(pos, decal);
     }
 
     void DrawPieces()
@@ -69,56 +89,46 @@ class BoardRenderer : public olc::PixelGameEngine
       // Loop through board array
       for (int position = 0; position < 64; position++)
       {
-        // Init sprite
-        olc::Sprite* sprite;
-
         // Get correct sprite
         switch (this->board[position])
         {
           case 'r': // Black Rook
-            sprite = this->br;
+            DrawPiece(position, this->br);
           break;
           case 'n': // Black Knight
-            sprite = this->bn;
+            DrawPiece(position, this->bn);
           break;
           case 'b': // Black Bishop
-            sprite = this->bb;
+            DrawPiece(position, this->bb);
           break;
           case 'q': // Black Queen
-            sprite = this->bq;
+            DrawPiece(position, this->bq);
           break;
           case 'k': // Black King
-            sprite = this->bk;
+            DrawPiece(position, this->bk);
           break;
           case 'p': // Black Pawn
-            sprite = this->bp;
+            DrawPiece(position, this->bp);
           break;
           case 'R': // White Rook
-            sprite = this->wr;
+            DrawPiece(position, this->wr);
           break;
           case 'N': // White Knight
-            sprite = this->wn;
+            DrawPiece(position, this->wn);
           break;
           case 'B': // White Bishop
-            sprite = this->wb;
+            DrawPiece(position, this->wb);
           break;
           case 'Q': // White Queen
-            sprite = this->wq;
+            DrawPiece(position, this->wq);
           break;
           case 'K': // White King
-            sprite = this->wk;
+            DrawPiece(position, this->wk);
           break;
           case 'P': // White Pawn
-            sprite = this->wp;
-          break;
-          default: 
-            sprite = NULL;
+            DrawPiece(position, this->wp);
           break;
         }
-
-        // Draw sprite
-        if (sprite != NULL)
-          DrawPiece(position, sprite);
       }
 
       // Disable transparency mode for performance

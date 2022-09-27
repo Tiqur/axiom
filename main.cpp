@@ -33,8 +33,8 @@ int main() {
 
      
   // Start renderer
-  //if (renderer.Construct(1120, 1120, 2, 2))
-    //renderer.Start();
+  if (renderer.Construct(1120, 1120, 2, 2))
+    renderer.Start();
   
 
   //Pawn pawn = Pawn(8, true);
