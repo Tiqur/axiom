@@ -9,7 +9,6 @@
 #include "./lib/Queen.h"
 #include "./lib/Knight.h"
 #include "./lib/Game.h"
-#include "./lib/BoardRenderer.h"
 
 
 
@@ -17,19 +16,15 @@
 
 int main() {
   std::string FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-  std::cout << FEN << std::endl;
+  std::cout << "Input FEN: " << FEN << std::endl;
 
   // Create new Game instance
   Game game = Game(FEN);
   std::cout << game.currentBoardToFEN() << std::endl;
 
-  // Init renderer
-  BoardRenderer renderer = BoardRenderer(game.getBoard());
+  // Render game
+  game.render();
 
-     
-  // Start renderer
-  if (renderer.Construct(128, 128, 1, 1))
-    renderer.Start();
   
 
   //Pawn pawn = Pawn(8, true);

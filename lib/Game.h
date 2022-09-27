@@ -1,3 +1,6 @@
+#include "BoardRenderer.h"
+
+
 // Holds all states and positions for current FEN
 class Game 
 {
@@ -115,6 +118,16 @@ class Game
       outputCurrentBoard();
     };
 
+    // Render current board
+    void render()
+    {
+      // Init renderer
+      BoardRenderer renderer = BoardRenderer(this->board);
+         
+      // Start renderer
+      if (renderer.Construct(128, 128, 1, 1))
+        renderer.Start();
+    }
 
     // Getters ( self explanatory )
     char* getBoard()
@@ -218,4 +231,10 @@ class Game
         std::cout << std::endl;
       }
     };
+
+    // Pass square from game to BoardRenderer
+    void selectSquare(char position)
+    {
+      
+    }
 };
