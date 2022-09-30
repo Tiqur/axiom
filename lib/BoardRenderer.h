@@ -204,21 +204,21 @@ class BoardRenderer : public olc::PixelGameEngine
     bool OnUserUpdate(float fElapsedTime) override
     {
       // Current board position from mouse coords
-      char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
-      if (GetMouse(0).bHeld)
-      {
-        Queen queen = Queen(currentPosition);
-        for (int i = 0; i < 64; i++)
-          customSquareColors[i] = 0;
-        customSquareColors[currentPosition] = 'g';
-        for (auto c : queen.getTargetedSquares())
-          customSquareColors[(int)c] = 'r';
-      }
-      else
-      {
-        for (int i = 0; i < 64; i++)
-          customSquareColors[i] = 0;
-      }
+      //char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
+      //if (GetMouse(0).bHeld)
+      //{
+      //  Queen queen = Queen(currentPosition);
+      //  for (int i = 0; i < 64; i++)
+      //    customSquareColors[i] = 0;
+      //  customSquareColors[currentPosition] = 'g';
+      //  for (auto c : queen.getTargetedSquares())
+      //    customSquareColors[(int)c] = 'r';
+      //}
+      //else
+      //{
+      //  for (int i = 0; i < 64; i++)
+      //    customSquareColors[i] = 0;
+      //}
 
       //customSquareColors[0] = 'r';
       //customSquareColors[1] = 'r';

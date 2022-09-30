@@ -1,71 +1,45 @@
-struct Queen {
-    char position;
-
-    // Private Methods
-    std::vector<char> getTargetedSquares();
-
-    Queen(char position) {
-      this->position = position;
-
-
-      std::vector<char> targetedSquares = getTargetedSquares();
-
-      for (char c: targetedSquares)
-        std::cout << (int)c << std::endl;
-
-    }
+struct Queen: public ChessPiece {
+  std::vector<char> getTargetedSquares();
+  Queen(char* board, char position) 
+  : ChessPiece(board, position){}
 };
 
-
-// Get all squares that the piece targets
-std::vector<char> Queen::getTargetedSquares() {
+std::vector<char> Queen::getTargetedSquares()
+{
   std::vector<char> targets;
-  char delta = this->position % 8;
-  char low = this->position - delta;
 
-  // Get nearest border
-  char squaresFromLeft = this->position-low;
-  char squaresFromRight = 7 - squaresFromLeft;
-  char squaresFromTop = this->position/8;
-  char squaresFromBottom = 7 - squaresFromTop;
-  char nearestBorder;
-  char startingPos;
-  bool start = true;
+  // Left
+  for(char i=ChessPiece::position-1; i>ChessPiece::delta*8-1; i--)
+    if (ChessPiece::validateMove(i, targets)) break;
 
+  // Right
+  for(char i=ChessPiece::position+1; i<ChessPiece::delta*8+8; i++)
+    if (ChessPiece::validateMove(i, targets)) break;
 
-  // Row excluding current position
-  for (int i = low; i < low+8; i++)
-    if (i != this->position)
-      targets.push_back(i);
+  // Up
+  for(char i=ChessPiece::position-8; i>ChessPiece::position-ChessPiece::delta*8-8; i-=8)
+    if (ChessPiece::validateMove(i, targets)) break;
 
-  // File excuding current position
-  for (int i = delta; i < 64; i+=8)
-    if (i != this->position)
-      targets.push_back(i);
+  // Down
+  for(char i=ChessPiece::position+8; i<ChessPiece::position+(8-ChessPiece::delta)*8; i+=8)
+    if (ChessPiece::validateMove(i, targets)) break;
 
+  // Top right
+  for (char i = ChessPiece::position+1; i <= ChessPiece::delta * 8 + 7 && i-(i-ChessPiece::position)*8 >= 0; i++)
+    if (ChessPiece::validateMove(i - (i-ChessPiece::position) * 8, targets)) break;
 
-  // Starting position to iterate and find diagonal ( top left to bottom right )
-  nearestBorder = squaresFromTop < squaresFromLeft ? squaresFromTop : squaresFromLeft;
-  startingPos = this->position-nearestBorder-8*nearestBorder;
-  for (int i = startingPos; i < 64; i+=9) {
-    if (!(i % 8) && !start) break;
-    start = false;
-    if (i != this->position)
-      targets.push_back(i);
-  }
+  // Bottom right
+  for (char i = ChessPiece::position+1; i <= ChessPiece::delta * 8 + 7 && i+(i-ChessPiece::position)*8 <= 63; i++)
+    if (ChessPiece::validateMove(i + (i-ChessPiece::position) * 8, targets)) break;
 
+  // Bottom left
+  for (char i = ChessPiece::position-1; i >= ChessPiece::delta * 8 && i+(i-ChessPiece::position) * 8 >= 0; i--)
+    if (ChessPiece::validateMove(i+(i-ChessPiece::position) * 8, targets)) break;
 
-  // Starting position to iterate and find diagonal ( bottom left to top right )
-  nearestBorder = squaresFromBottom < squaresFromLeft ? squaresFromBottom : squaresFromLeft;
-  startingPos = this->position-nearestBorder+8*nearestBorder;
-  for (int i = startingPos; i > 0; i-=7) {
-    if (!(i % 8) && start) break;
-    start = true;
-    if (i != this->position)
-      targets.push_back(i);
-  }
-
-
+  // Bottom Top
+  for (char i = ChessPiece::position-1; i >= ChessPiece::delta * 8 && i-(i-ChessPiece::position) * 8 <= 63; i--)
+    if (ChessPiece::validateMove(i-(i-ChessPiece::position) * 8, targets)) break;
 
   return targets;
-};
+}
+
