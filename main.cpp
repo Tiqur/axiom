@@ -13,14 +13,14 @@
 
 
 int main() {
-  std::string FEN = "8/8/8/8/8/8/8/8 w - - 0 1";
+  std::string FEN = "8/3p1p2/6P1/4N3/6P1/8/8/8 w - - 0 1";
   std::cout << "Input FEN: " << FEN << std::endl;
 
   // Create new Game instance
   Game game = Game(FEN);
   std::cout << game.currentBoardToFEN() << std::endl;
 
-  Bishop a = Bishop(game.getBoard(), 10);
+  Knight a = Knight(game.getBoard(), 28);
   for (auto s: a.getTargetedSquares())
   {
     std::cout << (int)s << std::endl;
