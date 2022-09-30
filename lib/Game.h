@@ -1,4 +1,5 @@
 #include "BoardRenderer.h"
+#include <ctime>
 
 
 // Holds all states and positions for current FEN
@@ -11,6 +12,10 @@ class Game
 
     // Holds all positions on board
     char board[64];
+
+    // Holds piece locations
+    std::vector<char> whitePieces;
+    std::vector<char> blackPieces;
 
     // Holds all possible moves
     std::unordered_map<char, std::vector<char>> possibleMoves;
@@ -109,31 +114,39 @@ class Game
       // Loop through board array
       for (int position = 0; position < 64; position++)
       {
+        // Get team 
+        bool team = this->board[position] >= 65 && this->board[position] <= 90;
+
+        // Append team's piece positions to vec
+        if (this->board[position] != '+')
+          (team ? this->whitePieces : this->blackPieces).push_back(position);
+
+        // Get valid moves per piece
         switch (this->board[position])
         {
           case 'R': // Rook
           case 'r':
-            this->possibleMoves.insert({position, Rook(this->board, position).getTargetedSquares()});
+            this->possibleMoves.insert({position, Rook(this->board, position, team).getTargetedSquares()});
           break;
           case 'N': // Knight
           case 'n':
-            this->possibleMoves.insert({position, Knight(this->board, position).getTargetedSquares()});
+            this->possibleMoves.insert({position, Knight(this->board, position, team).getTargetedSquares()});
           break;
           case 'B': // Bishop
           case 'b':
-            this->possibleMoves.insert({position, Bishop(this->board, position).getTargetedSquares()});
+            this->possibleMoves.insert({position, Bishop(this->board, position, team).getTargetedSquares()});
           break;
           case 'Q': // Queen
           case 'q':
-            this->possibleMoves.insert({position, Queen(this->board, position).getTargetedSquares()});
+            this->possibleMoves.insert({position, Queen(this->board, position, team).getTargetedSquares()});
           break;
           case 'K': // King
           case 'k':
-            this->possibleMoves.insert({position, King(this->board, position).getTargetedSquares()});
+            this->possibleMoves.insert({position, King(this->board, position, team).getTargetedSquares()});
           break;
           case 'P': // Pawn
           case 'p':
-            this->possibleMoves.insert({position, Pawn(this->board, position).getTargetedSquares()});
+            this->possibleMoves.insert({position, Pawn(this->board, position, team).getTargetedSquares()});
           break;
         }
       }
@@ -197,6 +210,41 @@ class Game
     bool getWhiteCanCastleKingSide()
     {
       return this->cK;
+    };
+
+    void makeRandomMove()
+    {
+      std::cout << "Selecting random move for " << (getTurn() ? "white" : "black") << std::endl;
+
+      // Get team
+      std::vector<char> teamToMove = (getTurn() ? whitePieces : blackPieces);
+      
+      // Filter out all pieces that don't have valid moves and ones on opposite team
+      std::vector<char> movablePieces;
+      for (auto & kvp : this->possibleMoves)
+        if (kvp.second.size() > 0 && kvp.first && std::find(teamToMove.begin(), teamToMove.end(), kvp.first) != teamToMove.end())
+          movablePieces.push_back(kvp.first);
+
+
+      // Select random (movable) piece to move
+      std::srand(std::time(NULL));
+      char randomPiecePos = std::rand()%(movablePieces.size());
+
+
+      for (char c: movablePieces)
+        this->renderer->setCustomSquareColor(c, 'o');
+        //selectSquare(c);
+
+      // Get piece to move and location to move it to
+      std::vector<char> moves = possibleMoves.find(movablePieces[randomPiecePos])->second;
+      char moveLocation = std::rand()%(moves.size());
+
+      std::cout << "Random piece location to move: " << (int)movablePieces[randomPiecePos] << std::endl;
+      std::cout << "Moving piece to: " << (int)moves[moveLocation] << std::endl;
+
+      // Set board
+      this->board[moves[moveLocation]] = this->board[movablePieces[randomPiecePos]];
+      this->board[movablePieces[randomPiecePos]] = 0;
     };
 
     bool getBlackCanCastleKingSide()

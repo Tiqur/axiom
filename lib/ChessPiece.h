@@ -15,10 +15,10 @@ struct ChessPiece
   // Validate specific piece's movement
   bool validateMove(char p, std::vector<char>& targets);
 
-  ChessPiece(char* board, char position)
+  ChessPiece(char* board, char position, bool team)
   {
     this->position = position;
-    this->team = this->board[position] >= 65 && this->board[position] <= 90;
+    this->team = team;
     this->board = board;
     this->delta = this->position / 8;
     this->onAFile = !((this->position) % 8);
@@ -31,7 +31,7 @@ struct ChessPiece
 
 bool ChessPiece::isNotOwnPiece(char p)
 {
-  return this->team ? !(this->board[p] >= 65 && this->board[p] <= 90) : !(this->board[p] >= 97 && this->board[p] <= 122);
+  return this->team ? !(this->board[p] >= 97 && this->board[p] <= 122) : !(this->board[p] >= 65 && this->board[p] <= 90);
 }
 
 bool ChessPiece::validateMove(char p, std::vector<char>& targets)

@@ -234,7 +234,7 @@ class BoardRenderer : public olc::PixelGameEngine
       DrawBoard();
 
       // Draw Pieces
-      //DrawPieces();
+      DrawPieces();
 
       return true;
     }

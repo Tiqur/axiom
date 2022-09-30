@@ -1,7 +1,7 @@
 struct Bishop: public ChessPiece {
   std::vector<char> getTargetedSquares();
-  Bishop(char* board, char position) 
-  : ChessPiece(board, position){}
+  Bishop(char* board, char position, bool team) 
+  : ChessPiece(board, position, team){}
 };
 
 std::vector<char> Bishop::getTargetedSquares()

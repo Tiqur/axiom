@@ -1,7 +1,7 @@
 struct King: public ChessPiece {
   std::vector<char> getTargetedSquares();
-  King(char* board, char position) 
-  : ChessPiece(board, position){}
+  King(char* board, char position, bool team) 
+  : ChessPiece(board, position, team){}
 };
 
 std::vector<char> King::getTargetedSquares()

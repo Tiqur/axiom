@@ -1,7 +1,7 @@
 struct Pawn: public ChessPiece {
   std::vector<char> getTargetedSquares();
-  Pawn(char* board, char position) 
-  : ChessPiece(board, position){}
+  Pawn(char* board, char position, bool team) 
+  : ChessPiece(board, position, team){}
 };
 
 std::vector<char> Pawn::getTargetedSquares()
