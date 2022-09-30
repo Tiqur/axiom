@@ -12,6 +12,9 @@ class Game
     // Holds all positions on board
     char board[64];
 
+    // Holds all possible moves
+    std::unordered_map<char, std::vector<char>> possibleMoves;
+
     // Turn (true for white)
     bool turn;
 
@@ -99,6 +102,43 @@ class Game
       fullMoveCounter = std::stoi(slice);
     }
 
+    // Calculate possible moves and insert them into map
+    void calculateAllPossibleMoves()
+    {
+
+      // Loop through board array
+      for (int position = 0; position < 64; position++)
+      {
+        switch (this->board[position])
+        {
+          case 'R': // Rook
+          case 'r':
+            this->possibleMoves.insert({position, Rook(this->board, position).getTargetedSquares()});
+          break;
+          case 'N': // Knight
+          case 'n':
+            this->possibleMoves.insert({position, Knight(this->board, position).getTargetedSquares()});
+          break;
+          case 'B': // Bishop
+          case 'b':
+            this->possibleMoves.insert({position, Bishop(this->board, position).getTargetedSquares()});
+          break;
+          case 'Q': // Queen
+          case 'q':
+            this->possibleMoves.insert({position, Queen(this->board, position).getTargetedSquares()});
+          break;
+          case 'K': // King
+          case 'k':
+            this->possibleMoves.insert({position, King(this->board, position).getTargetedSquares()});
+          break;
+          case 'P': // Pawn
+          case 'p':
+            this->possibleMoves.insert({position, Pawn(this->board, position).getTargetedSquares()});
+          break;
+        }
+      }
+    }
+
   public:
     Game(std::string FEN)
     {
@@ -119,6 +159,17 @@ class Game
       parseHalfMoveClock(slices[4]);
       parseFullMoveCounter(slices[5]);
       outputCurrentBoard();
+
+      // Calculate possible moves for given board
+      calculateAllPossibleMoves();
+
+    for (auto & kvp : this->possibleMoves)
+    {
+      std::cout << (int)kvp.first << ": [";
+      for (auto & a : kvp.second)
+        std::cout << (int)a << ",";
+      std::cout << "]" << std::endl;
+    }
 
       // Init renderer
       this->renderer = new BoardRenderer(this->board);

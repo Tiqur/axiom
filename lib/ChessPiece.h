@@ -18,7 +18,7 @@ struct ChessPiece
   ChessPiece(char* board, char position)
   {
     this->position = position;
-    this->team = true;
+    this->team = this->board[position] >= 65 && this->board[position] <= 90;
     this->board = board;
     this->delta = this->position / 8;
     this->onAFile = !((this->position) % 8);
