@@ -20,7 +20,7 @@ int main() {
   Game game = Game(FEN);
   std::cout << game.currentBoardToFEN() << std::endl;
 
-  Pawn a = Pawn(game.getBoard(), 10);
+  Bishop a = Bishop(game.getBoard(), 10);
   for (auto s: a.getTargetedSquares())
   {
     std::cout << (int)s << std::endl;

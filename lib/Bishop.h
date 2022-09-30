@@ -1,60 +1,29 @@
-struct Bishop {
-    char position;
-
-    // Private Methods
-    std::vector<char> getTargetedSquares();
-
-    Bishop(char position) {
-      this->position = position;
-
-
-      std::vector<char> targetedSquares = getTargetedSquares();
-
-      for (char c: targetedSquares)
-        std::cout << (int)c << std::endl;
-
-    }
+struct Bishop: public ChessPiece {
+  std::vector<char> getTargetedSquares();
+  Bishop(char* board, char position) 
+  : ChessPiece(board, position){}
 };
 
-
-// Get all squares that the piece targets
-std::vector<char> Bishop::getTargetedSquares() {
+std::vector<char> Bishop::getTargetedSquares()
+{
   std::vector<char> targets;
-  char delta = this->position % 8;
-  char low = this->position - delta;
 
-  // Get nearest border
-  char squaresFromLeft = this->position-low;
-  char squaresFromRight = 7 - squaresFromLeft;
-  char squaresFromTop = this->position/8;
-  char squaresFromBottom = 7 - squaresFromTop;
-  char nearestBorder;
-  char startingPos;
-  bool start = true;
+  // Top right
+  for (char i = ChessPiece::position+1; i <= delta * 8 + 7 && i-(i-ChessPiece::position)*8 >= 0; i++)
+    if (ChessPiece::validateMove(i - (i-ChessPiece::position) * 8, targets)) break;
 
+  // Bottom right
+  for (char i = ChessPiece::position+1; i <= delta * 8 + 7 && i+(i-ChessPiece::position)*8 <= 63; i++)
+    if (ChessPiece::validateMove(i + (i-ChessPiece::position) * 8, targets)) break;
 
-  // Starting position to iterate and find diagonal ( top left to bottom right )
-  nearestBorder = squaresFromTop < squaresFromLeft ? squaresFromTop : squaresFromLeft;
-  startingPos = this->position-nearestBorder-8*nearestBorder;
-  for (int i = startingPos; i < 64; i+=9) {
-    if (!(i % 8) && !start) break;
-    start = false;
-    if (i != this->position)
-      targets.push_back(i);
-  }
+  // Bottom left
+  for (char i = ChessPiece::position-1; i >= delta * 8 && i+(i-ChessPiece::position) * 8 >= 0; i--)
+    if (ChessPiece::validateMove(i+(i-ChessPiece::position) * 8, targets)) break;
 
-
-  // Starting position to iterate and find diagonal ( bottom left to top right )
-  nearestBorder = squaresFromBottom < squaresFromLeft ? squaresFromBottom : squaresFromLeft;
-  startingPos = this->position-nearestBorder+8*nearestBorder;
-  for (int i = startingPos; i > 0; i-=7) {
-    if (!(i % 8) && start) break;
-    start = true;
-    if (i != this->position)
-      targets.push_back(i);
-  }
-
-
+  // Bottom Top
+  for (char i = ChessPiece::position-1; i >= delta * 8 && i-(i-ChessPiece::position) * 8 <= 63; i--)
+    if (ChessPiece::validateMove(i-(i-ChessPiece::position) * 8, targets)) break;
 
   return targets;
-};
+}
+
