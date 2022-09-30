@@ -1,45 +1,30 @@
-struct Pawn {
-    char position;
-    bool color;
-
-    // Private Methods
-    std::vector<char> getTargetedSquares();
-
-    Pawn(char position, bool color) {
-      this->position = position;
-      this->color = color;
-
-
-      std::vector<char> targetedSquares = getTargetedSquares();
-
-      for (char c: targetedSquares)
-        std::cout << (int)c << std::endl;
-
-    }
+struct Pawn: public ChessPiece {
+  std::vector<char> getTargetedSquares();
+  Pawn(char* board, char position) 
+  : ChessPiece(board, position){}
 };
 
-
-// Get all squares that the piece targets
-std::vector<char> Pawn::getTargetedSquares() {
-  char d = this->color ? 1 : -1;
-  bool onAFile = !((this->position) % 8);
-  bool onHFile = !((this->position+1) % 8);
+std::vector<char> Pawn::getTargetedSquares()
+{
   std::vector<char> targets;
-  
-  // Push forward one
-  targets.push_back(this->position+8*d);
+  char d = ChessPiece::team ? -1 : 1;
 
-  // Attack left of pawn
-  if (!(d ? onAFile : onHFile)) 
-    targets.push_back(this->position+7*d);
+  // Attack left or right of pawn if opponent piece is there
+  if (!(ChessPiece::team ? ChessPiece::onHFile : ChessPiece::onAFile ) && ChessPiece::isNotOwnPiece(ChessPiece::position+7*d) && ChessPiece::board[ChessPiece::position+7*d] != '+') 
+    targets.push_back(ChessPiece::position+7*d);
 
-  // Attack right of pawn
-  if (!(d ? onHFile : onAFile))
-    targets.push_back(this->position+9*d);
+  // Attack left or right of pawn if opponent piece is there
+  if (!(ChessPiece::team ? ChessPiece::onAFile : ChessPiece::onHFile ) && ChessPiece::isNotOwnPiece(ChessPiece::position+9*d) && ChessPiece::board[ChessPiece::position+9*d] != '+')
+    targets.push_back(ChessPiece::position+9*d);
 
-  // If pawn hasn't moved
-  if ((d && this->position >= 8 && this->position <= 15) || (this->position >= 48 && this->position <= 55))
-    targets.push_back(this->position+16*d);
+  // Push forward one if nothing in front
+  if (ChessPiece::board[ChessPiece::position+8*d] == '+')
+    targets.push_back(ChessPiece::position+8*d);
+
+  // If pawn hasn't moved push forward if nothing in front
+  if ((ChessPiece::team ? (ChessPiece::position >= 48 && ChessPiece::position <= 55) : (ChessPiece::position >= 8 && ChessPiece::position <= 15)) && ChessPiece::board[ChessPiece::position+16*d] == '+' && ChessPiece::board[ChessPiece::position+8*d] == '+')
+    targets.push_back(ChessPiece::position+16*d);
 
   return targets;
-};
+}
+

@@ -2,7 +2,6 @@ struct ChessPiece
 {
   char position;
   bool team;
-  std::vector<char> targets;
   char delta;
   bool onAFile;
   bool onHFile; 
@@ -14,10 +13,7 @@ struct ChessPiece
   bool isNotOwnPiece(char p);
 
   // Validate specific piece's movement
-  bool validateMove(char p);
-
-  std::vector<char> getTargetedSquares();
-
+  bool validateMove(char p, std::vector<char>& targets);
 
   ChessPiece(char* board, char position)
   {
@@ -38,20 +34,20 @@ bool ChessPiece::isNotOwnPiece(char p)
   return this->board[this->position] == (this->team ? this->board[this->position]+31 : this->board[this->position]-31);
 }
 
-bool ChessPiece::validateMove(char p)
+bool ChessPiece::validateMove(char p, std::vector<char>& targets)
 {
   bool notOwnPiece = this->isNotOwnPiece(p);
 
   // If empty square
   if (this->board[p] == '+') {
-    this->targets.push_back(p);
+    targets.push_back(p);
     return false;
   // If own piece
   } else if (notOwnPiece) {
     return true;
   // If opponent's piece
   } else if (!notOwnPiece) {
-    this->targets.push_back(p);
+    targets.push_back(p);
     return true;
   }
   return false;

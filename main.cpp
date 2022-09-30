@@ -20,8 +20,8 @@ int main() {
   Game game = Game(FEN);
   std::cout << game.currentBoardToFEN() << std::endl;
 
-  Rook rook = Rook(game.getBoard(), 10);
-  for (auto s: rook.getTargetedSquares())
+  Pawn a = Pawn(game.getBoard(), 10);
+  for (auto s: a.getTargetedSquares())
   {
     std::cout << (int)s << std::endl;
   }
