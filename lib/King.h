@@ -1,31 +1,13 @@
-struct King {
-    char position;
-
-    // Private Methods
-    std::vector<char> getTargetedSquares();
-
-    King(char position) {
-      this->position = position;
-
-
-      std::vector<char> targetedSquares = getTargetedSquares();
-
-      for (char c: targetedSquares)
-        std::cout << (int)c << std::endl;
-
-    }
+struct King: public ChessPiece {
+  std::vector<char> getTargetedSquares();
+  King(char* board, char position) 
+  : ChessPiece(board, position){}
 };
 
+std::vector<char> King::getTargetedSquares()
+{
+  std::vector<char> targets;
 
-// Get all squares that the piece targets
-std::vector<char> King::getTargetedSquares() {
-
-
-  // Push forward one
-  bool onAFile = !((this->position) % 8);
-  bool onHFile = !((this->position+1) % 8);
-  bool on1Row = this->position > 55;
-  bool on8Row = this->position < 8;
 
   // Diagonals ( There HAS To be a better way to do this... )
   bool tl = true;
@@ -33,46 +15,44 @@ std::vector<char> King::getTargetedSquares() {
   bool bl = true;
   bool br = true;
 
-  std::vector<char> targets;
-
   // Right
-  if (!onHFile) {
-    targets.push_back(this->position+1);
+  if (!ChessPiece::onHFile) {
+    if (isNotOwnPiece(ChessPiece::position+1)) targets.push_back(ChessPiece::position+1);
   } else {
     br = false;
     tr = false;
   }
 
   // Left
-  if (!onAFile){
-    targets.push_back(this->position-1);
+  if (!ChessPiece::onAFile){
+    if (isNotOwnPiece(ChessPiece::position-1)) targets.push_back(ChessPiece::position-1);
   } else {
     bl = false;
     tl = false;
   }
 
   // Up
-  if (!on1Row) {
-    targets.push_back(this->position+8);
+  if (!ChessPiece::on1Row) {
+    if (isNotOwnPiece(ChessPiece::position+8)) targets.push_back(ChessPiece::position+8);
   } else {
     bl = false;
     br = false;
   }
 
   // Down 
-  if (!on8Row) {
-    targets.push_back(this->position-8);
+  if (!ChessPiece::on8Row) {
+    if (isNotOwnPiece(ChessPiece::position-8)) targets.push_back(ChessPiece::position-8);
   } else {
     tl = false;
     tr = false;
   }
 
   // Push diagonals
-  if (bl) targets.push_back(this->position+7);
-  if (br) targets.push_back(this->position+9);
-  if (tl) targets.push_back(this->position-9);
-  if (tr) targets.push_back(this->position-7);
-
+  if (bl && isNotOwnPiece(ChessPiece::position+7)) targets.push_back(ChessPiece::position+7);
+  if (br && isNotOwnPiece(ChessPiece::position+9)) targets.push_back(ChessPiece::position+9);
+  if (tl && isNotOwnPiece(ChessPiece::position-9)) targets.push_back(ChessPiece::position-9);
+  if (tr && isNotOwnPiece(ChessPiece::position-7)) targets.push_back(ChessPiece::position-7);
 
   return targets;
-};
+}
+
