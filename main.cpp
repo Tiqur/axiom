@@ -18,9 +18,12 @@ int main() {
 
   // Create new Game instance
   Game game = Game(FEN);
-  std::cout << game.currentBoardToFEN() << std::endl;
-  game.makeRandomMove();
-  game.makeRandomMove();
+
+  for (int i = 0; i < 20; i++)
+  {
+    game.makeRandomMove();
+    std::cout << game.currentBoardToFEN() << std::endl;
+  }
 
   // Render game
   game.render();

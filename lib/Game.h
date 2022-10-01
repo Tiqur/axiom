@@ -173,6 +173,9 @@ class Game
       parseFullMoveCounter(slices[5]);
       outputCurrentBoard();
 
+      // Init random seed
+      std::srand(std::time(NULL));
+
       // Calculate possible moves for given board
       calculateAllPossibleMoves();
 
@@ -227,7 +230,6 @@ class Game
 
 
       // Select random (movable) piece to move
-      std::srand(std::time(NULL));
       char randomPiecePos = std::rand()%(movablePieces.size());
 
 
@@ -244,7 +246,9 @@ class Game
 
       // Set board
       this->board[moves[moveLocation]] = this->board[movablePieces[randomPiecePos]];
-      this->board[movablePieces[randomPiecePos]] = 0;
+      this->board[movablePieces[randomPiecePos]] = '+';
+      this->turn = !this->turn;
+      outputCurrentBoard();
     };
 
     bool getBlackCanCastleKingSide()
