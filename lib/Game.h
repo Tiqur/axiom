@@ -230,9 +230,9 @@ class Game
       std::cout << "Moving piece to: " << (int)moves[moveLocation] << std::endl;
 
       // Set board
-      //this->board[moves[moveLocation]] = this->board[movablePieces[randomPiecePos]];
-      //this->board[movablePieces[randomPiecePos]] = '+';
-      //this->turn = !this->turn;
+      this->board[moves[moveLocation]] = this->board[movablePieces[randomPiecePos]];
+      this->board[movablePieces[randomPiecePos]] = '+';
+      this->turn = !this->turn;
       outputCurrentBoard();
     };
 

@@ -26,9 +26,12 @@ void inputThread()
   // Create new Game instance
   Game game = Game(FEN);
   renderer.setBoard(game.getBoard());
-  //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-  //while (true)
-    //std::cout << std::rand() << std::endl;
+  while (true)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    game.makeRandomMove();
+    renderer.setBoard(game.getBoard());
+  }
 }
 
 
