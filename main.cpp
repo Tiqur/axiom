@@ -28,8 +28,9 @@ void inputThread()
   renderer.setBoard(game.getBoard());
   while (true)
   {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     game.makeRandomMove();
+    renderer.setCustomSquareColors(game.getCustomSquareColors());
     renderer.setBoard(game.getBoard());
   }
 }

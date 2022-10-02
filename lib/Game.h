@@ -9,6 +9,9 @@ class Game
     // Holds all positions on board
     std::array<char, 64> board;
 
+    // Holds custom suqare colors 
+    std::array<char, 64> customSquareColors;
+
     // Holds piece locations
     std::vector<char> whitePieces;
     std::vector<char> blackPieces;
@@ -106,6 +109,8 @@ class Game
     // Calculate possible moves and insert them into map
     void calculateAllPossibleMoves()
     {
+      // Clear map
+      this->possibleMoves.clear();
 
       // Loop through board array
       for (int position = 0; position < 64; position++)
@@ -172,9 +177,6 @@ class Game
       // Init random seed
       std::srand(std::time(NULL));
 
-      // Calculate possible moves for given board
-      calculateAllPossibleMoves();
-
       for (auto & kvp : this->possibleMoves)
       {
         std::cout << (int)kvp.first << ": [";
@@ -204,6 +206,9 @@ class Game
     {
       std::cout << "Selecting random move for " << (getTurn() ? "white" : "black") << std::endl;
 
+      // Calculate possible moves for given board
+      calculateAllPossibleMoves();
+
       // Get team
       std::vector<char> teamToMove = (getTurn() ? whitePieces : blackPieces);
       
@@ -217,14 +222,18 @@ class Game
       // Select random (movable) piece to move
       char randomPiecePos = std::rand()%(movablePieces.size());
 
-
-      //for (char c: movablePieces)
-        //this->renderer->setCustomSquareColor(c, 'o');
-        //selectSquare(c);
-
       // Get piece to move and location to move it to
       std::vector<char> moves = possibleMoves.find(movablePieces[randomPiecePos])->second;
       char moveLocation = std::rand()%(moves.size());
+
+      // Highlight pieces that CAN move 
+      this->customSquareColors = {0};
+      for (char c: movablePieces)
+          this->customSquareColors[c] = 'o';
+
+      // Highlight legal moves for selected piece
+      for (char c: moves)
+          this->customSquareColors[c] = 'r';
 
       std::cout << "Random piece location to move: " << (int)movablePieces[randomPiecePos] << std::endl;
       std::cout << "Moving piece to: " << (int)moves[moveLocation] << std::endl;
@@ -311,6 +320,11 @@ class Game
       newFEN += std::to_string(this->fullMoveCounter);
 
       return newFEN;
+    }
+
+    std::array<char, 64> getCustomSquareColors()
+    {
+      return this->customSquareColors;
     }
 
     // Output board to console

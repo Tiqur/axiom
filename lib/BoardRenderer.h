@@ -18,7 +18,7 @@ class BoardRenderer : public olc::PixelGameEngine
     std::array<char, 64> board;
 
     // Custom Square Colors
-    char customSquareColors[64] = {0};
+    std::array<char, 64> customSquareColors = {0};
 
     // White Decals
     olc::Decal* wk = nullptr;
@@ -258,9 +258,8 @@ class BoardRenderer : public olc::PixelGameEngine
       return true;
     }
 
-    void setCustomSquareColor(char position, char color)
+    void setCustomSquareColors(std::array<char, 64> customSquareColors)
     {
-      if (color == 'r' || color == 'g' || color == 'b' || color == 'o')
-        this->customSquareColors[position] = color;
+      this->customSquareColors = customSquareColors;
     }
 };
