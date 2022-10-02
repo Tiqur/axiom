@@ -1,4 +1,5 @@
 #define OLC_PGE_APPLICATION
+
 #include "./olcPixelGameEngine.h"
 
 class BoardRenderer : public olc::PixelGameEngine
@@ -11,7 +12,7 @@ class BoardRenderer : public olc::PixelGameEngine
     char pieceOffset = 0;
 
     // Sprite scale
-    float spriteScale = 0.109;
+    float spriteScale = 0.43;
 
     // Board positions
     std::array<char, 64> board;
@@ -134,7 +135,19 @@ class BoardRenderer : public olc::PixelGameEngine
 
       // Disable transparency mode for performance
       SetPixelMode(olc::Pixel::NORMAL);
+    }
 
+    // Draw board position number on each square
+    void DrawSquareNumber()
+    {
+      char offset = 2;
+      // Loop through board array
+      for (int position = 0; position < 64; position++)
+      {
+        int x = this->pieceOffset+this->squareWidth*(position%8);
+        int y = this->pieceOffset+this->squareWidth*(position/8);
+        DrawString(x+offset, y+offset, std::to_string(position), olc::RED);
+      }
     }
 
     void DrawBoard()
@@ -238,6 +251,9 @@ class BoardRenderer : public olc::PixelGameEngine
 
       // Draw Pieces
       DrawPieces();
+
+      // For Debug
+      DrawSquareNumber();
 
       return true;
     }

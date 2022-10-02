@@ -43,7 +43,7 @@ int main() {
   std::thread t(&inputThread);
 
   // Render game
-  if (renderer.Construct(128, 128, 1, 1))
+  if (renderer.Construct(512, 512, 1, 1))
     renderer.Start();
 
   return 0;
