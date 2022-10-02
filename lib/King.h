@@ -1,6 +1,6 @@
 struct King: public ChessPiece {
   std::vector<char> getTargetedSquares();
-  King(char* board, char position, bool team) 
+  King(std::array<char, 64> board, char position, bool team) 
   : ChessPiece(board, position, team){}
 };
 

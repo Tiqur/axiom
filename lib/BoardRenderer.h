@@ -14,7 +14,7 @@ class BoardRenderer : public olc::PixelGameEngine
     float spriteScale = 0.109;
 
     // Board positions
-    char *board;
+    std::array<char, 64> board;
 
     // Custom Square Colors
     char customSquareColors[64] = {0};
@@ -40,10 +40,8 @@ class BoardRenderer : public olc::PixelGameEngine
     // True = white
     bool turn = true;
 
-    BoardRenderer(char board[64])
+    BoardRenderer()
     {
-      // Set board positions
-      this->board = board;
 
       // Set app name
       sAppName = "Axiom";
@@ -199,6 +197,11 @@ class BoardRenderer : public olc::PixelGameEngine
     char getPositionFromCoords(int x, int y)
     {
       return (int)(x / this->squareWidth) + (int)(y / this->squareWidth) * 8;
+    }
+
+    void setBoard(std::array<char, 64> board)
+    {
+      this->board = board;
     }
 
     bool OnUserUpdate(float fElapsedTime) override

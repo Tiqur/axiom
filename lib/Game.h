@@ -1,17 +1,13 @@
-#include "BoardRenderer.h"
-#include <ctime>
+#include <unordered_map>
+#include <algorithm>
 
 
 // Holds all states and positions for current FEN
 class Game 
 {
   private:
-
-    // Init board renderer
-    BoardRenderer* renderer = nullptr;
-
     // Holds all positions on board
-    char board[64];
+    std::array<char, 64> board;
 
     // Holds piece locations
     std::vector<char> whitePieces;
@@ -179,28 +175,17 @@ class Game
       // Calculate possible moves for given board
       calculateAllPossibleMoves();
 
-    for (auto & kvp : this->possibleMoves)
-    {
-      std::cout << (int)kvp.first << ": [";
-      for (auto & a : kvp.second)
-        std::cout << (int)a << ",";
-      std::cout << "]" << std::endl;
-    }
-
-      // Init renderer
-      this->renderer = new BoardRenderer(this->board);
+      for (auto & kvp : this->possibleMoves)
+      {
+        std::cout << (int)kvp.first << ": [";
+        for (auto & a : kvp.second)
+          std::cout << (int)a << ",";
+        std::cout << "]" << std::endl;
+      }
     };
 
-    // Render current board
-    void render()
-    {
-      // Start renderer
-      if (renderer->Construct(128, 128, 1, 1))
-        renderer->Start();
-    }
-
     // Getters ( self explanatory )
-    char* getBoard()
+    std::array<char, 64> getBoard()
     {
       return this->board;
     };
@@ -233,8 +218,8 @@ class Game
       char randomPiecePos = std::rand()%(movablePieces.size());
 
 
-      for (char c: movablePieces)
-        this->renderer->setCustomSquareColor(c, 'o');
+      //for (char c: movablePieces)
+        //this->renderer->setCustomSquareColor(c, 'o');
         //selectSquare(c);
 
       // Get piece to move and location to move it to
@@ -245,9 +230,9 @@ class Game
       std::cout << "Moving piece to: " << (int)moves[moveLocation] << std::endl;
 
       // Set board
-      this->board[moves[moveLocation]] = this->board[movablePieces[randomPiecePos]];
-      this->board[movablePieces[randomPiecePos]] = '+';
-      this->turn = !this->turn;
+      //this->board[moves[moveLocation]] = this->board[movablePieces[randomPiecePos]];
+      //this->board[movablePieces[randomPiecePos]] = '+';
+      //this->turn = !this->turn;
       outputCurrentBoard();
     };
 
@@ -337,10 +322,4 @@ class Game
         std::cout << std::endl;
       }
     };
-
-    // Pass square from game to BoardRenderer
-    void selectSquare(char position)
-    {
-      this->renderer->setCustomSquareColor(position, 'b');
-    }
 };

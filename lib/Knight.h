@@ -1,6 +1,6 @@
 struct Knight: public ChessPiece {
   std::vector<char> getTargetedSquares();
-  Knight(char* board, char position, bool team) 
+  Knight(std::array<char, 64> board, char position, bool team) 
   : ChessPiece(board, position, team){}
 };
 

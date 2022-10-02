@@ -1,6 +1,6 @@
 struct Rook: public ChessPiece {
   std::vector<char> getTargetedSquares();
-  Rook(char* board, char position, bool team) 
+  Rook(std::array<char, 64> board, char position, bool team) 
   : ChessPiece(board, position, team){}
 };
 

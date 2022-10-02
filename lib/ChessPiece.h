@@ -7,7 +7,7 @@ struct ChessPiece
   bool onHFile; 
   bool on1Row;
   bool on8Row;
-  char* board;
+  std::array<char, 64> board;
 
   // Return true if piece at p is not own piece 
   bool isNotOwnPiece(char p);
@@ -15,7 +15,7 @@ struct ChessPiece
   // Validate specific piece's movement
   bool validateMove(char p, std::vector<char>& targets);
 
-  ChessPiece(char* board, char position, bool team)
+  ChessPiece(std::array<char, 64> board, char position, bool team)
   {
     this->position = position;
     this->team = team;
