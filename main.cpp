@@ -20,20 +20,23 @@ BoardRenderer renderer = BoardRenderer();
 
 void inputThread()
 {
-  std::string FEN = "rnbqkbnr/ppp1pppp/3p4/8/8/3P4/PPP1PPPP/RNBQKBNR w KQkq - 0 1";
+  std::string FEN = "8/8/8/8/8/8/3PPP2/3QKB2 w - - 0 1";
   std::cout << "Input FEN: " << FEN << std::endl;
 
   // Create new Game instance
   Game game = Game(FEN);
+  game.highlightMovablePieces();
+  game.highlightLegalMovesForPiecePos(60);
   renderer.setCustomSquareColors(game.getCustomSquareColors());
   renderer.setBoard(game.getBoard());
-  while (true)
-  {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    game.makeRandomMove();
-    renderer.setCustomSquareColors(game.getCustomSquareColors());
-    renderer.setBoard(game.getBoard());
-  }
+
+  //while (true)
+  //{
+  //  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  //  game.makeRandomMove();
+  //  renderer.setCustomSquareColors(game.getCustomSquareColors());
+  //  renderer.setBoard(game.getBoard());
+  //}
 }
 
 

@@ -31,7 +31,7 @@ struct ChessPiece
 
 bool ChessPiece::isNotOwnPiece(char p)
 {
-  return this->team ? !(this->board[p] >= 97 && this->board[p] <= 122) : !(this->board[p] >= 65 && this->board[p] <= 90);
+  return this->team ? !(this->board[p] >= 65 && this->board[p] <= 90) : !(this->board[p] >= 97 && this->board[p] <= 122);
 }
 
 bool ChessPiece::validateMove(char p, std::vector<char>& targets)

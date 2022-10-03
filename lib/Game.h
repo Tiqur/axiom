@@ -205,9 +205,41 @@ class Game
       return this->cK;
     };
 
+    std::vector<char> getMovablePieces()
+    {
+
+      // Get team
+      std::vector<char> teamToMove = (getTurn() ? whitePieces : blackPieces);
+      
+      // Get moveable pieces
+      std::vector<char> movablePieces;
+      for (auto & kvp : this->possibleMoves)
+        if (kvp.second.size() > 0 && kvp.first && std::find(teamToMove.begin(), teamToMove.end(), kvp.first) != teamToMove.end())
+          movablePieces.push_back(kvp.first);
+
+      return movablePieces;
+    }
+
     std::vector<char> getLegalMovesForPiecePos(char position)
     {
         return this->possibleMoves.find(position)->second;
+    }
+
+    void highlightMovablePieces()
+    {
+      // Highlight pieces that CAN move 
+      this->customSquareColors = {0};
+      for (char c: getMovablePieces())
+          this->customSquareColors[c] = 'b';
+    }
+
+    void highlightLegalMovesForPiecePos(char position)
+    {
+      std::vector<char> moves = getLegalMovesForPiecePos(position);
+
+      // Highlight legal moves for selected piece
+      for (char c: moves)
+          this->customSquareColors[c] = 'r';
     }
 
     void makeRandomMove()
@@ -216,16 +248,9 @@ class Game
 
       // Calculate possible moves for given board
       calculateAllPossibleMoves();
-
-      // Get team
-      std::vector<char> teamToMove = (getTurn() ? whitePieces : blackPieces);
       
       // Filter out all pieces that don't have valid moves and ones on opposite team
-      std::vector<char> movablePieces;
-      for (auto & kvp : this->possibleMoves)
-        if (kvp.second.size() > 0 && kvp.first && std::find(teamToMove.begin(), teamToMove.end(), kvp.first) != teamToMove.end())
-          movablePieces.push_back(kvp.first);
-
+      std::vector<char> movablePieces = getMovablePieces();
 
       // Select random (movable) piece to move
       char randomPiecePos = std::rand()%(movablePieces.size());
@@ -233,15 +258,6 @@ class Game
       // Get piece to move and location to move it to
       std::vector<char> moves = getLegalMovesForPiecePos(movablePieces[randomPiecePos]);
       char moveLocation = std::rand()%(moves.size());
-
-      // Highlight pieces that CAN move 
-      this->customSquareColors = {0};
-      for (char c: movablePieces)
-          this->customSquareColors[c] = 'b';
-
-      // Highlight legal moves for selected piece
-      for (char c: moves)
-          this->customSquareColors[c] = 'r';
 
       // Highlight selected piece
       this->customSquareColors[movablePieces[randomPiecePos]] = 'g';
