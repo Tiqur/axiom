@@ -10,7 +10,7 @@ class Game
     std::array<char, 64> board;
 
     // Holds custom suqare colors 
-    std::array<char, 64> customSquareColors;
+    std::array<char, 64> customSquareColors = {0};
 
     // Holds piece locations
     std::vector<char> whitePieces;
@@ -177,6 +177,9 @@ class Game
       // Init random seed
       std::srand(std::time(NULL));
 
+      // Calculate possible moves for given board
+      calculateAllPossibleMoves();
+
       for (auto & kvp : this->possibleMoves)
       {
         std::cout << (int)kvp.first << ": [";
@@ -202,6 +205,11 @@ class Game
       return this->cK;
     };
 
+    std::vector<char> getLegalMovesForPiecePos(char position)
+    {
+        return this->possibleMoves.find(position)->second;
+    }
+
     void makeRandomMove()
     {
       std::cout << "Selecting random move for " << (getTurn() ? "white" : "black") << std::endl;
@@ -223,17 +231,23 @@ class Game
       char randomPiecePos = std::rand()%(movablePieces.size());
 
       // Get piece to move and location to move it to
-      std::vector<char> moves = possibleMoves.find(movablePieces[randomPiecePos])->second;
+      std::vector<char> moves = getLegalMovesForPiecePos(movablePieces[randomPiecePos]);
       char moveLocation = std::rand()%(moves.size());
 
       // Highlight pieces that CAN move 
       this->customSquareColors = {0};
       for (char c: movablePieces)
-          this->customSquareColors[c] = 'o';
+          this->customSquareColors[c] = 'b';
 
       // Highlight legal moves for selected piece
       for (char c: moves)
           this->customSquareColors[c] = 'r';
+
+      // Highlight selected piece
+      this->customSquareColors[movablePieces[randomPiecePos]] = 'g';
+
+      // Highlight position piece moved to
+      this->customSquareColors[moves[moveLocation]] = 'o';
 
       std::cout << "Random piece location to move: " << (int)movablePieces[randomPiecePos] << std::endl;
       std::cout << "Moving piece to: " << (int)moves[moveLocation] << std::endl;
@@ -243,6 +257,7 @@ class Game
       this->board[movablePieces[randomPiecePos]] = '+';
       this->turn = !this->turn;
       outputCurrentBoard();
+      std::cout << currentBoardToFEN() << std::endl << "---------------------------------" << std::endl;;
     };
 
     bool getBlackCanCastleKingSide()
