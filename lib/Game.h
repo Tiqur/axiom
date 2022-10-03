@@ -316,10 +316,10 @@ class Game
 
       // Append Castling rights
       newFEN += ' ';
-      if (this->ck) newFEN += 'k';
-      if (this->cq) newFEN += 'q';
       if (this->cK) newFEN += 'K';
       if (this->cQ) newFEN += 'Q';
+      if (this->ck) newFEN += 'k';
+      if (this->cq) newFEN += 'q';
 
       // ** DO THIS LATER **
       // Append En Passant
