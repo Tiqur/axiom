@@ -222,7 +222,9 @@ class Game
 
     std::vector<char> getLegalMovesForPiecePos(char position)
     {
+      if (this->possibleMoves.count(position))
         return this->possibleMoves.find(position)->second;
+      return std::vector<char>();
     }
 
     void highlightMovablePieces()

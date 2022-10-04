@@ -11,6 +11,9 @@ class BoardRenderer : public olc::PixelGameEngine
     // Chess piece offset 
     char pieceOffset = 0;
 
+    // Current square hovered over
+    char currentMouseSquarePos;
+
     // Sprite scale
     float spriteScale = 0.43;
 
@@ -86,7 +89,8 @@ class BoardRenderer : public olc::PixelGameEngine
     void DrawPieces()
     {
       // Set mode transparency (computationally intensive, so only use before drawing sprites)
-      SetPixelMode(olc::Pixel::ALPHA);
+      //SetPixelMode(olc::Pixel::ALPHA);
+      SetPixelMode(olc::Pixel::NORMAL);
 
       // Loop through board array
       for (int position = 0; position < 64; position++)
@@ -134,7 +138,7 @@ class BoardRenderer : public olc::PixelGameEngine
       }
 
       // Disable transparency mode for performance
-      SetPixelMode(olc::Pixel::NORMAL);
+      //SetPixelMode(olc::Pixel::NORMAL);
     }
 
     // Draw board position number on each square
@@ -217,10 +221,15 @@ class BoardRenderer : public olc::PixelGameEngine
       this->board = board;
     }
 
+    char getCurrentSquareHoverPos()
+    {
+      return this->currentMouseSquarePos;
+    }
+
     bool OnUserUpdate(float fElapsedTime) override
     {
       // Current board position from mouse coords
-      //char currentPosition = getPositionFromCoords(GetMouseX(), GetMouseY());
+      this->currentMouseSquarePos = getPositionFromCoords(GetMouseX(), GetMouseY());
       //customSquareColors[currentPosition] = 'g';
 
       //customSquareColors[0] = 'r';
