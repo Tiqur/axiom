@@ -43,10 +43,10 @@ bool ChessPiece::validateMove(char p, std::vector<char>& targets)
     targets.push_back(p);
     return false;
   // If own piece
-  } else if (notOwnPiece) {
+  } else if (!notOwnPiece) {
     return true;
   // If opponent's piece
-  } else if (!notOwnPiece) {
+  } else if (notOwnPiece) {
     targets.push_back(p);
     return true;
   }
