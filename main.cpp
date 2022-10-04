@@ -20,7 +20,7 @@ BoardRenderer renderer = BoardRenderer();
 
 void inputThread()
 {
-  std::string FEN = "8/7p/8/8/8/8/P7/8 w KQkq - 0 1";
+  std::string FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   std::cout << "Input FEN: " << FEN << std::endl;
 
   // Create new Game instance
@@ -33,14 +33,18 @@ void inputThread()
   while (true)
   {
     //std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    //std::cout << (int)renderer.getCurrentSquareHoverPos() << std::endl;
+
+
+    // Set board colors
     game.highlightMovablePieces();
+    game.highlightLegalMovesForPiecePos(renderer.getClickedSquare());
+    game.colorSquare(renderer.getClickedSquare(), 'g');
 
-    game.colorSquare(renderer.getLastClickedSquare(), 'g');
-
-    //game.highlightLegalMovesForPiecePos(renderer.getCurrentSquareHoverPos());
+    std::cout << "Attempting to move piece on: " << (int)renderer.getLastClickedSquare() << " to: " << (int)renderer.getClickedSquare() << std::endl;
     
     //game.makeRandomMove();
+
+    // Apply square colors and board
     renderer.setCustomSquareColors(game.getCustomSquareColors());
     renderer.setBoard(game.getBoard());
   }

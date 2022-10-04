@@ -12,6 +12,7 @@ class BoardRenderer : public olc::PixelGameEngine
     char pieceOffset = 0;
 
     // Last clicked square
+    char clickedSquare = -1;
     char lastClickedSquare = -1;
 
     // Current square hovered over
@@ -234,13 +235,18 @@ class BoardRenderer : public olc::PixelGameEngine
       return this->lastClickedSquare;
     }
 
+    char getClickedSquare()
+    {
+      return this->clickedSquare;
+    }
+
     bool OnUserUpdate(float fElapsedTime) override
     {
       // Current board position from mouse coords
       this->currentMouseSquarePos = getPositionFromCoords(GetMouseX(), GetMouseY());
 
+      // Handle click events 
       static bool mouseHeld = false;
-
       if (GetMouse(0).bHeld)
       {
         mouseHeld = true;
@@ -248,21 +254,13 @@ class BoardRenderer : public olc::PixelGameEngine
       else 
       {
         if (mouseHeld)
-          this->lastClickedSquare = getPositionFromCoords(GetMouseX(), GetMouseY());
+        {
+          // Swap lastClickedSquare to clickedSquare and set new clickedSquare
+          this->lastClickedSquare = this->clickedSquare;
+          this->clickedSquare = getPositionFromCoords(GetMouseX(), GetMouseY());
+        }
         mouseHeld = false;
       }
-
-      //customSquareColors[currentPosition] = 'g';
-
-      //customSquareColors[0] = 'r';
-      //customSquareColors[1] = 'r';
-      //customSquareColors[8] = 'g';
-      //customSquareColors[9] = 'g';
-      //customSquareColors[16] = 'b';
-      //customSquareColors[17] = 'b';
-      //customSquareColors[24] = 'o';
-      //customSquareColors[25] = 'o';
-
 
       // Draw Squares
       DrawBoard();

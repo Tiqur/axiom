@@ -237,7 +237,7 @@ class Game
 
     void colorSquare(char position, char color)
     {
-      if (color == 'r' || color == 'g' || color == 'b' || color == 'o')
+      if ((color == 'r' || color == 'g' || color == 'b' || color == 'o') && (position > -1))
         this->customSquareColors[position] = color;
     }
 
