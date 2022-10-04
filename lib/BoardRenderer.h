@@ -11,6 +11,9 @@ class BoardRenderer : public olc::PixelGameEngine
     // Chess piece offset 
     char pieceOffset = 0;
 
+    // Last clicked square
+    char lastClickedSquare = -1;
+
     // Current square hovered over
     char currentMouseSquarePos;
 
@@ -226,10 +229,29 @@ class BoardRenderer : public olc::PixelGameEngine
       return this->currentMouseSquarePos;
     }
 
+    char getLastClickedSquare()
+    {
+      return this->lastClickedSquare;
+    }
+
     bool OnUserUpdate(float fElapsedTime) override
     {
       // Current board position from mouse coords
       this->currentMouseSquarePos = getPositionFromCoords(GetMouseX(), GetMouseY());
+
+      static bool mouseHeld = false;
+
+      if (GetMouse(0).bHeld)
+      {
+        mouseHeld = true;
+      } 
+      else 
+      {
+        if (mouseHeld)
+          this->lastClickedSquare = getPositionFromCoords(GetMouseX(), GetMouseY());
+        mouseHeld = false;
+      }
+
       //customSquareColors[currentPosition] = 'g';
 
       //customSquareColors[0] = 'r';

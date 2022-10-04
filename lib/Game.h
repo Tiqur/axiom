@@ -232,7 +232,13 @@ class Game
       // Highlight pieces that CAN move 
       this->customSquareColors = {0};
       for (char c: getMovablePieces())
-          this->customSquareColors[c] = 'b';
+        colorSquare(c, 'b');
+    }
+
+    void colorSquare(char position, char color)
+    {
+      if (color == 'r' || color == 'g' || color == 'b' || color == 'o')
+        this->customSquareColors[position] = color;
     }
 
     void highlightLegalMovesForPiecePos(char position)
@@ -241,7 +247,7 @@ class Game
 
       // Highlight legal moves for selected piece
       for (char c: moves)
-          this->customSquareColors[c] = 'r';
+        colorSquare(c, 'r');
     }
 
     void makeRandomMove()
@@ -274,7 +280,7 @@ class Game
       this->board[moves[moveLocation]] = this->board[movablePieces[randomPiecePos]];
       this->board[movablePieces[randomPiecePos]] = '+';
       this->turn = !this->turn;
-      outputCurrentBoard();
+      //outputCurrentBoard();
       std::cout << currentBoardToFEN() << std::endl << "---------------------------------" << std::endl;;
     };
 
