@@ -250,6 +250,23 @@ class Game
         colorSquare(c, 'r');
     }
 
+    void movePiece(char pos1, char pos2)
+    {
+      // Current piece type to move
+      char pieceToPlace = this->board[pos1];
+
+      // If pawn on first or last rank, promote ( ascii code + 1 == queen )
+      if ((pieceToPlace == 'p' || pieceToPlace == 'P') && (pos2 < 8 || pos2 > 55))
+        pieceToPlace++; // This is pretty clean, 70 (p) + 1 -> 71 (q).  Same with capital
+
+      // Set board
+      this->board[pos2] = pieceToPlace;
+      this->board[pos1] = '+';
+
+      // Change turn
+      this->turn = !this->turn;
+    }
+
     void makeRandomMove()
     {
       std::cout << "Selecting random move for " << (getTurn() ? "white" : "black") << std::endl;
@@ -277,9 +294,8 @@ class Game
       std::cout << "Moving piece to: " << (int)moves[moveLocation] << std::endl;
 
       // Set board
-      this->board[moves[moveLocation]] = this->board[movablePieces[randomPiecePos]];
-      this->board[movablePieces[randomPiecePos]] = '+';
-      this->turn = !this->turn;
+      movePiece(movablePieces[randomPiecePos], moves[moveLocation]);
+
       //outputCurrentBoard();
       std::cout << currentBoardToFEN() << std::endl << "---------------------------------" << std::endl;;
     };
