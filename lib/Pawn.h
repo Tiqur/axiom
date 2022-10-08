@@ -8,14 +8,16 @@ std::vector<char> Pawn::getTargetedSquares()
 {
   std::vector<char> targets;
   char d = ChessPiece::team ? -1 : 1;
+  char file = this->position % 8;
+  char rank = this->position / 8;
 
   // Attack left or right of pawn if opponent piece is there
-  if (!(ChessPiece::team ? ChessPiece::onHFile : ChessPiece::onAFile ) && ChessPiece::isNotOwnPiece(ChessPiece::position+7*d) && ChessPiece::board[ChessPiece::position+7*d] != '+') 
-    targets.push_back(ChessPiece::position+7*d);
+  if (ChessPiece::isWithinBounds(file+1, rank+d) && ChessPiece::isEnemyPiece(file+1+(rank+d)*8)) 
+    targets.push_back(file+1+(rank+d)*8);
 
   // Attack left or right of pawn if opponent piece is there
-  if (!(ChessPiece::team ? ChessPiece::onAFile : ChessPiece::onHFile ) && ChessPiece::isNotOwnPiece(ChessPiece::position+9*d) && ChessPiece::board[ChessPiece::position+9*d] != '+')
-    targets.push_back(ChessPiece::position+9*d);
+  if (ChessPiece::isWithinBounds(file-1, rank+d) && ChessPiece::isEnemyPiece(file-1+(rank+d)*8))
+    targets.push_back(file-1+(rank+d)*8);
 
   // Push forward one if nothing in front
   if (ChessPiece::board[ChessPiece::position+8*d] == '+')

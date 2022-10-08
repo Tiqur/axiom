@@ -20,7 +20,7 @@ BoardRenderer renderer = BoardRenderer();
 
 void inputThread()
 {
-  std::string FEN = "K7/8/8/3PKp2/8/8/8/8 w KQkq - 0 1";
+  std::string FEN = "K7/pppppppp/3P4/3PKp2/8/4p3/PPPPPPPP/8 w KQkq - 0 1";
   std::cout << "Input FEN: " << FEN << std::endl;
 
   // Create new Game instance

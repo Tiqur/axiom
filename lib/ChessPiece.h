@@ -11,12 +11,6 @@ struct ChessPiece
   bool on8Row;
   std::array<char, 64> board;
 
-  // Return true if piece at p is not own piece 
-  bool isNotOwnPiece(char p);
-
-  // Validate specific piece's movement
-  bool validateMove(char p, std::vector<char>& targets);
-
   // Check if piece is on certain team
   bool isEnemyPiece(char p);
   bool isOwnPiece(char p);
@@ -53,13 +47,7 @@ bool ChessPiece::isEnemyPiece(char p)
 
 bool ChessPiece::isWithinBounds(char file, char rank)
 {
-  // If out of bounds
   return (file >= 0 && file <= 7 && rank >= 0 && rank <= 7);
-}
-
-bool ChessPiece::isNotOwnPiece(char p)
-{
-  return this->team ? !(this->board[p] >= 65 && this->board[p] <= 90) : !(this->board[p] >= 97 && this->board[p] <= 122);
 }
 
 void ChessPiece::appendTargetsLoop(std::vector<char> &targets, char fileOffset, char rankOffset)
@@ -83,23 +71,3 @@ void ChessPiece::appendTargetsLoop(std::vector<char> &targets, char fileOffset, 
       break;
   }
 }
-
-bool ChessPiece::validateMove(char p, std::vector<char>& targets)
-{
-  bool notOwnPiece = this->isNotOwnPiece(p);
-
-  // If empty square
-  if (this->board[p] == '+') {
-    targets.push_back(p);
-    return false;
-  // If own piece
-  } else if (!notOwnPiece) {
-    return true;
-  // If opponent's piece
-  } else if (notOwnPiece) {
-    targets.push_back(p);
-    return true;
-  }
-  return false;
-}
-
