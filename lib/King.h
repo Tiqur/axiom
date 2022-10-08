@@ -8,50 +8,18 @@ std::vector<char> King::getTargetedSquares()
 {
   std::vector<char> targets;
 
+  for (char i = -1; i < 2; i++)
+  {
+    for (char o = -1; o < 2; o++)
+    {
+      if (i == 0 && o == 0) continue;
+      char file = this->position % 8 + i;
+      char rank = this->position / 8 + o;
 
-  // Diagonals ( There HAS To be a better way to do this... )
-  bool tl = true;
-  bool tr = true;
-  bool bl = true;
-  bool br = true;
-
-  // Right
-  if (!ChessPiece::onHFile) {
-    if (isNotOwnPiece(ChessPiece::position+1)) targets.push_back(ChessPiece::position+1);
-  } else {
-    br = false;
-    tr = false;
+      if (ChessPiece::isWithinBounds(file, rank) && ChessPiece::isNotOwnPiece(file+rank*8))
+        targets.push_back(file+rank*8);
+    }
   }
-
-  // Left
-  if (!ChessPiece::onAFile){
-    if (isNotOwnPiece(ChessPiece::position-1)) targets.push_back(ChessPiece::position-1);
-  } else {
-    bl = false;
-    tl = false;
-  }
-
-  // Up
-  if (!ChessPiece::on1Row) {
-    if (isNotOwnPiece(ChessPiece::position+8)) targets.push_back(ChessPiece::position+8);
-  } else {
-    bl = false;
-    br = false;
-  }
-
-  // Down 
-  if (!ChessPiece::on8Row) {
-    if (isNotOwnPiece(ChessPiece::position-8)) targets.push_back(ChessPiece::position-8);
-  } else {
-    tl = false;
-    tr = false;
-  }
-
-  // Push diagonals
-  if (bl && isNotOwnPiece(ChessPiece::position+7)) targets.push_back(ChessPiece::position+7);
-  if (br && isNotOwnPiece(ChessPiece::position+9)) targets.push_back(ChessPiece::position+9);
-  if (tl && isNotOwnPiece(ChessPiece::position-9)) targets.push_back(ChessPiece::position-9);
-  if (tr && isNotOwnPiece(ChessPiece::position-7)) targets.push_back(ChessPiece::position-7);
 
   return targets;
 }
