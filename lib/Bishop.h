@@ -8,21 +8,17 @@ std::vector<char> Bishop::getTargetedSquares()
 {
   std::vector<char> targets;
 
-  // Top right
-  for (char i = ChessPiece::position+1; i <= delta * 8 + 7 && i-(i-ChessPiece::position)*8 >= 0; i++)
-    if (ChessPiece::validateMove(i - (i-ChessPiece::position) * 8, targets)) break;
+  // Top Right
+  ChessPiece::appendTargetsLoop(targets, -7);
 
-  // Bottom right
-  for (char i = ChessPiece::position+1; i <= delta * 8 + 7 && i+(i-ChessPiece::position)*8 <= 63; i++)
-    if (ChessPiece::validateMove(i + (i-ChessPiece::position) * 8, targets)) break;
+  // Top Left
+  ChessPiece::appendTargetsLoop(targets, -9);
 
-  // Bottom left
-  for (char i = ChessPiece::position-1; i >= delta * 8 && i+(i-ChessPiece::position) * 8 >= 0; i--)
-    if (ChessPiece::validateMove(i+(i-ChessPiece::position) * 8, targets)) break;
+  // Bottom Left
+  ChessPiece::appendTargetsLoop(targets, 7);
 
-  // Bottom Top
-  for (char i = ChessPiece::position-1; i >= delta * 8 && i-(i-ChessPiece::position) * 8 <= 63; i--)
-    if (ChessPiece::validateMove(i-(i-ChessPiece::position) * 8, targets)) break;
+  // Bottom Right
+  ChessPiece::appendTargetsLoop(targets, 9);
 
   return targets;
 }

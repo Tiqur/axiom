@@ -9,36 +9,28 @@ std::vector<char> Queen::getTargetedSquares()
   std::vector<char> targets;
 
   // Left
-  for(char i=ChessPiece::position-1; i>ChessPiece::delta*8-1; i--)
-    if (ChessPiece::validateMove(i, targets)) break;
+  ChessPiece::appendTargetsLoop(targets, -1);
 
   // Right
-  for(char i=ChessPiece::position+1; i<ChessPiece::delta*8+8; i++)
-    if (ChessPiece::validateMove(i, targets)) break;
+  ChessPiece::appendTargetsLoop(targets, 1);
 
-  // Up
-  for(char i=ChessPiece::position-8; i>ChessPiece::position-ChessPiece::delta*8-8; i-=8)
-    if (ChessPiece::validateMove(i, targets)) break;
+  // up
+  ChessPiece::appendTargetsLoop(targets, -8);
 
   // Down
-  for(char i=ChessPiece::position+8; i<ChessPiece::position+(8-ChessPiece::delta)*8; i+=8)
-    if (ChessPiece::validateMove(i, targets)) break;
+  ChessPiece::appendTargetsLoop(targets, 8);
 
-  // Top right
-  for (char i = ChessPiece::position+1; i <= ChessPiece::delta * 8 + 7 && i-(i-ChessPiece::position)*8 >= 0; i++)
-    if (ChessPiece::validateMove(i - (i-ChessPiece::position) * 8, targets)) break;
+  // Top Right
+  ChessPiece::appendTargetsLoop(targets, -7);
 
-  // Bottom right
-  for (char i = ChessPiece::position+1; i <= ChessPiece::delta * 8 + 7 && i+(i-ChessPiece::position)*8 <= 63; i++)
-    if (ChessPiece::validateMove(i + (i-ChessPiece::position) * 8, targets)) break;
+  // Top Left
+  ChessPiece::appendTargetsLoop(targets, -9);
 
-  // Bottom left
-  for (char i = ChessPiece::position-1; i >= ChessPiece::delta * 8 && i+(i-ChessPiece::position) * 8 >= 0; i--)
-    if (ChessPiece::validateMove(i+(i-ChessPiece::position) * 8, targets)) break;
+  // Bottom Left
+  ChessPiece::appendTargetsLoop(targets, 7);
 
-  // Bottom Top
-  for (char i = ChessPiece::position-1; i >= ChessPiece::delta * 8 && i-(i-ChessPiece::position) * 8 <= 63; i--)
-    if (ChessPiece::validateMove(i-(i-ChessPiece::position) * 8, targets)) break;
+  // Bottom Right
+  ChessPiece::appendTargetsLoop(targets, 9);
 
   return targets;
 }
