@@ -7,64 +7,20 @@ struct Knight: public ChessPiece {
 std::vector<char> Knight::getTargetedSquares()
 {
   std::vector<char> targets;
+  char toCheck[8][2] = {{-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}};
 
-  // Not on A File
-  if (ChessPiece::position%8) {
-    // o
-    // o o o
-    // Not on B File or on top row
-    if ((ChessPiece::position-1)%8 && ChessPiece::position > 7)
-      if (isNotOwnPiece(ChessPiece::position-10)) targets.push_back(ChessPiece::position-10);
+  for (int i = 0; i < 8; i++)
+  {
+    char fileOffset = toCheck[i][0];
+    char rankOffset = toCheck[i][1];
 
-    // o o
-    //   o
-    //   o
-    //   Not on top two rows
-    if (ChessPiece::position > 15)
-      if (isNotOwnPiece(ChessPiece::position-17)) targets.push_back(ChessPiece::position-17);
-    
-    //   o
-    //   o
-    // o o
-    // Not within bottom two rows
-    if (ChessPiece::position < 48)
-      if (isNotOwnPiece(ChessPiece::position+15)) targets.push_back(ChessPiece::position+15);
+    char file = this->position % 8 + fileOffset;
+    char rank = this->position / 8 + rankOffset;
 
-    // o o o
-    // o    
-    // Not on B File or bottom row
-    if ((ChessPiece::position-1)%8 && ChessPiece::position < 56)
-      if (isNotOwnPiece(ChessPiece::position+6)) targets.push_back(ChessPiece::position+6);
+    if (ChessPiece::isWithinBounds(file, rank) && ChessPiece::isNotOwnPiece(file+rank*8))
+      targets.push_back(file+rank*8);
   }
 
-  // Not on H File
-  if ((ChessPiece::position+1)%8) {
-    // o o
-    // o  
-    // o  
-    //   Not on top two rows
-    if (ChessPiece::position > 15)
-        if (isNotOwnPiece(ChessPiece::position-15)) targets.push_back(ChessPiece::position-15);
-
-    //     o
-    // o o o
-    // Not on G File or top row
-    if ((ChessPiece::position+2)%8 && ChessPiece::position > 7)
-      if (isNotOwnPiece(ChessPiece::position-6)) targets.push_back(ChessPiece::position-6);
-
-    // o o o
-    //     o
-    // Not on G File or bottom row
-    if ((ChessPiece::position+2)%8 && ChessPiece::position < 56)
-      if (isNotOwnPiece(ChessPiece::position+10)) targets.push_back(ChessPiece::position+10);
-
-    // o  
-    // o  
-    // o o
-    // Not within bottom two rows
-    if (ChessPiece::position < 48)
-      if (isNotOwnPiece(ChessPiece::position+17)) targets.push_back(ChessPiece::position+17);
-  }
   return targets;
 }
 

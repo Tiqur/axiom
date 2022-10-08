@@ -22,10 +22,10 @@ struct ChessPiece
   bool isOwnPiece(char p);
 
   // Check if new pos is within board's bounds
-  bool isWithinBounds(char newPos);
+  bool isWithinBounds(char file, char rank);
   
   // Append targets for pieces that loop ( rook, bishop, queen )
-  void appendTargetsLoop(std::vector<char>& targets, char offset);
+  void appendTargetsLoop(std::vector<char> &targets, char fileOffset, char rankOffset);
 
   ChessPiece(std::array<char, 64> board, char position, bool team)
   {
@@ -51,16 +51,10 @@ bool ChessPiece::isEnemyPiece(char p)
   return this->team ? (this->board[p] >= 97 && this->board[p] <= 122) : (this->board[p] >= 65 && this->board[p] <= 90);
 }
 
-bool ChessPiece::isWithinBounds(char p)
+bool ChessPiece::isWithinBounds(char file, char rank)
 {
-  char file = p % 8;
-  char rank = p / 8;
-
   // If out of bounds
-  if (file >= 7 || file <= 0 || rank >= 7 || rank <= 0)
-    return false;
-
-  return true;
+  return (file >= 0 && file <= 7 && rank >= 0 && rank <= 7);
 }
 
 bool ChessPiece::isNotOwnPiece(char p)
@@ -68,22 +62,24 @@ bool ChessPiece::isNotOwnPiece(char p)
   return this->team ? !(this->board[p] >= 65 && this->board[p] <= 90) : !(this->board[p] >= 97 && this->board[p] <= 122);
 }
 
-void ChessPiece::appendTargetsLoop(std::vector<char> &targets, char offset)
+void ChessPiece::appendTargetsLoop(std::vector<char> &targets, char fileOffset, char rankOffset)
 {
   for (char i = 1; i < 8; i++)
   {
     // Position to move to
-    char newPos = this->position+offset*i;
+    char file = this->position % 8 + fileOffset*i;
+    char rank = this->position / 8 + rankOffset*i;
+    char newPos = rank*8+file;
 
-    // Break if own piece
-    if (this->isOwnPiece(newPos))
+    // Break if own piece or out of bounds
+    if (!this->isWithinBounds(file, rank) || this->isOwnPiece(newPos))
       break;
     
     // Push new position to targets
     targets.push_back(newPos);
 
-    // Break if out of bounds or enemy piece
-    if (!this->isWithinBounds(newPos) || this->isEnemyPiece(newPos))
+    // Break if enemy piece
+    if (this->isEnemyPiece(newPos))
       break;
   }
 }

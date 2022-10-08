@@ -9,16 +9,16 @@ std::vector<char> Rook::getTargetedSquares()
   std::vector<char> targets;
 
   // Left
-  ChessPiece::appendTargetsLoop(targets, -1);
+  ChessPiece::appendTargetsLoop(targets, -1, 0);
 
   // Right
-  ChessPiece::appendTargetsLoop(targets, 1);
+  ChessPiece::appendTargetsLoop(targets, 1, 0);
 
   // up
-  ChessPiece::appendTargetsLoop(targets, -8);
+  ChessPiece::appendTargetsLoop(targets, 0, -1);
 
   // Down
-  ChessPiece::appendTargetsLoop(targets, 8);
+  ChessPiece::appendTargetsLoop(targets, 0, 1);
 
   return targets;
 }
